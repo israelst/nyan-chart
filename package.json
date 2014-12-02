@@ -1,0 +1,30 @@
+{
+  "name": "nyan-chart",
+  "version": "0.0.0",
+  "description": "nyan-chart ==========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/israelst/nyan-chart.git"
+  },
+  "keywords": [
+    "information",
+    "visualization",
+    "d3",
+    "chart",
+    "bar",
+    "chart",
+    "area",
+    "chart",
+    "nyan"
+  ],
+  "author": "Israel Teixeira",
+  "license": "GPL2",
+  "bugs": {
+    "url": "https://github.com/israelst/nyan-chart/issues"
+  },
+  "homepage": "https://github.com/israelst/nyan-chart"
+}
