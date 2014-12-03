@@ -6,9 +6,11 @@ module.exports = function(grunt) {
         browserify: {
             files: {
                 src: [
-                    'static/js/**/*.js',
+                    'index.js',
+                    'charts.js',
+                    '!dist',
                 ],
-                dest: 'static/dist/js/build.js',
+                dest: 'dist/build.js',
             }
         },
         mochaTest: {
