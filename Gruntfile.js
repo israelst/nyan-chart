@@ -24,14 +24,14 @@ module.exports = function(grunt) {
             },
         },
         watch: {
-            js: {
+            test: {
                 options: {
                     spawn: false,
                 },
                 files: ['**/*.js'],
                 tasks: ['mochaTest']
             },
-            frontJs: {
+            build: {
                 options: {
                     spawn: false,
                 },
