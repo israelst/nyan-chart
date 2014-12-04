@@ -26,7 +26,8 @@ exports.dot = function(){
             .data(data)
             .enter()
             .append('circle')
-            .attr('r', '10')
+            .attr('class', 'point')
+            .attr('r', '4')
             .attr('cy', c(y, value))
             .attr('cx', c(x, category));
 
