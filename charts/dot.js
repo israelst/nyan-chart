@@ -10,7 +10,7 @@ exports.dot = function(){
             .data(data)
             .enter()
             .append('text')
-            .attr('y', '100')
+            .attr('y', '360')
             .attr('x', function(d, i){ return 100 * i;})
             .text(function(d){ return d[0];});
 
