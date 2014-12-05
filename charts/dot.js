@@ -41,6 +41,7 @@ exports.dot = function(){
             .append('text')
             .attr('y', xAxisTop)
             .attr('x', c(x, category))
+            .attr('text-anchor', 'middle')
             .text(category);
 
     }
