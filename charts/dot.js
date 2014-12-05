@@ -10,13 +10,17 @@ function c(f1, f2){
 
 exports.dot = function(){
     var width = 1280,
-        bottom = 360;
+        top = 75,
+        bottom = 130,
+        left = 165,
+        right = 175,
+        xAxisTop = 360;
 
     function chart(selection){
         var data = selection.datum(),
             categories = data.map(category),
-            x = d3.scale.ordinal().domain(categories).rangeBands([0, width]),
-            y = d3.scale.linear().domain([0, 100]).range([bottom - 45, 75]);
+            x = d3.scale.ordinal().domain(categories).rangeBands([0, width - left - right], 0.3, 0.5),
+            y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]);
 
         selection.attr('viewBox', '0 0 ' + width + ' 515')
                 .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -35,7 +39,7 @@ exports.dot = function(){
             .data(data)
             .enter()
             .append('text')
-            .attr('y', bottom)
+            .attr('y', xAxisTop)
             .attr('x', c(x, category))
             .text(category);
 
