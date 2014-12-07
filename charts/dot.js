@@ -13,13 +13,13 @@ exports.dot = function(){
         top = 75,
         bottom = 130,
         left = 165,
-        right = 175,
+        right = 190,
         xAxisTop = 360;
 
     function chart(selection){
         var data = selection.datum(),
             categories = data.map(category),
-            x = d3.scale.ordinal().domain(categories).rangeBands([left, width - left - right], 0.3, 0.5),
+            x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
