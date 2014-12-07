@@ -19,8 +19,10 @@ exports.dot = function(){
     function chart(selection){
         var data = selection.datum(),
             categories = data.map(category),
-            x = d3.scale.ordinal().domain(categories).rangeBands([0, width - left - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]);
+            x = d3.scale.ordinal().domain(categories).rangeBands([left, width - left - right], 0.3, 0.5),
+            y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
+            xAxis = d3.svg.axis().scale(x),
+            yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
         selection.attr('viewBox', '0 0 ' + width + ' 515')
                 .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -33,16 +35,15 @@ exports.dot = function(){
             .attr('class', 'point')
             .attr('r', '4')
             .attr('cy', c(y, value))
-            .attr('cx', c(x, category));
+            .attr('cx', c(function(d){ return x(d) + x.rangeBand()/2;}, category));
 
-        selection.selectAll('text')
-            .data(data)
-            .enter()
-            .append('text')
-            .attr('y', xAxisTop)
-            .attr('x', c(x, category))
-            .attr('text-anchor', 'middle')
-            .text(category);
+        selection.append('g').attr('class', 'y axis')
+            .attr('transform', 'translate(' + left + ',0)')
+            .call(yAxis);
+
+        selection.append('g').attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + xAxisTop + ')')
+            .call(xAxis);
 
     }
     return chart;
