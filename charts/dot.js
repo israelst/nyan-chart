@@ -45,6 +45,27 @@ exports.dot = function(){
             .attr('transform', 'translate(0,' + xAxisTop + ')')
             .call(xAxis);
 
+        selection.append('defs')
+            .append('filter')
+            .attr('id', 'myGaussianBlur')
+            .append('feGaussianBlur')
+            .attr('in', 'SourceGraphic')
+            .attr('stdDeviation', 15);
+
+
+        selection
+            .append('g')
+            .style('filter', 'url(#myGaussianBlur)')
+            .selectAll('ellipse')
+            .data(data)
+            .enter()
+            .append('ellipse')
+            .style('fill-opacity', 0.6)
+            .style('fill', '#65ffff')
+            .attr('cy', c(y, value))
+            .attr('cx', c(function(d){ return x(d) + x.rangeBand()/2;}, category))
+            .attr('rx', '75')
+            .attr('ry', '100');
     }
     return chart;
 };
