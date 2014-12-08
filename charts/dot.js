@@ -16,6 +16,35 @@ function inc(increment){
     };
 }
 
+function rainbow(x, y, color){
+    return function(selection){
+        var ry = d3.max(y.range()),
+            data = selection.datum();
+
+        selection.append('defs')
+            .append('filter')
+            .attr('id', 'myGaussianBlur')
+            .append('feGaussianBlur')
+            .attr('in', 'SourceGraphic')
+            .attr('stdDeviation', 30);
+
+        selection
+            .append('g')
+            .style('filter', 'url(#myGaussianBlur)')
+            .selectAll('ellipse')
+            .data(data)
+            .enter()
+            .append('ellipse')
+            .style('fill-opacity', 0.4)
+            .style('fill', c(color, index))
+            .attr('cy', c(inc(ry), y, value))
+            .attr('cx', c(inc(x.rangeBand()/2), x, category))
+            .attr('rx', c(inc(ry), y, value))
+            .attr('ry', ry)
+            .sort(function(a, b){ return value(b) - value(a);});
+    };
+}
+
 exports.dot = function(){
     var width = 1280,
         top = 75,
@@ -35,6 +64,8 @@ exports.dot = function(){
             y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
+
+        selection.call(rainbow(x, y, color));
 
         selection.attr('viewBox', '0 0 ' + width + ' 515')
                 .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -57,28 +88,6 @@ exports.dot = function(){
             .attr('transform', 'translate(0,' + xAxisTop + ')')
             .call(xAxis);
 
-        var ry = d3.max(y.range());
-        selection.append('defs')
-            .append('filter')
-            .attr('id', 'myGaussianBlur')
-            .append('feGaussianBlur')
-            .attr('in', 'SourceGraphic')
-            .attr('stdDeviation', 30);
-
-        selection
-            .append('g')
-            .style('filter', 'url(#myGaussianBlur)')
-            .selectAll('ellipse')
-            .data(data)
-            .enter()
-            .append('ellipse')
-            .style('fill-opacity', 0.4)
-            .style('fill', c(color, index))
-            .attr('cy', c(inc(ry), y, value))
-            .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', c(inc(ry), y, value))
-            .attr('ry', ry)
-            .sort(function(a, b){ return value(b) - value(a);});
     }
     return chart;
 };
