@@ -45,7 +45,7 @@ function rainbow(x, y, color){
     };
 }
 
-exports.dot = function(){
+exports.dot = function(colors){
     var width = 1280,
         top = 75,
         bottom = 130,
@@ -56,20 +56,26 @@ exports.dot = function(){
     function chart(selection){
         var data = selection.datum(),
             categories = data.map(category),
-            color = d3.scale.linear()
-                .domain([0, categories.length])
-                .range(['hsl(0,100%,70%)', 'hsl(360,100%,70%)'])
-                .interpolate(d3.interpolateString),
+            color = d3.scale.linear(),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
-        selection.call(rainbow(x, y, color));
+        if(colors){
+            color.domain(categories.map(index))
+                .range(colors);
+        }else{
+            color.domain([0, categories.length])
+                .range(['hsl(0,100%,70%)', 'hsl(360,100%,70%)'])
+                .interpolate(d3.interpolateString);
+        }
 
         selection.attr('viewBox', '0 0 ' + width + ' 515')
                 .attr('preserveAspectRatio', 'xMidYMid meet')
                 .attr('width', '100%');
+
+        selection.call(rainbow(x, y, color));
 
         selection.selectAll('circle')
             .data(data)
