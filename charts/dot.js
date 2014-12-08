@@ -5,6 +5,11 @@ function value(d){ return d[1];}
 function c(f1, f2){
     return function(){
         return f1(f2.apply(this, arguments));
+    });
+}
+function inc(increment){
+    return function (value){
+        return increment + value;
     };
 }
 
@@ -67,7 +72,7 @@ exports.dot = function(){
             .style('fill-opacity', 0.6)
             .style('fill', function(d, i){ return color(i);})
             .attr('cy', c(y, value))
-            .attr('cx', c(function(d){ return x(d) + x.rangeBand()/2;}, category))
+            .attr('cx', c(inc(x.rangeBand()/2), x, category))
             .attr('rx', '75')
             .attr('ry', '100');
     }
