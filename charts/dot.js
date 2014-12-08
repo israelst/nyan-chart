@@ -19,6 +19,10 @@ exports.dot = function(){
     function chart(selection){
         var data = selection.datum(),
             categories = data.map(category),
+            color = d3.scale.linear()
+                .domain([0, categories.length])
+                .range(['hsl(0,100%,70%)', 'hsl(360,100%,70%)'])
+                .interpolate(d3.interpolateString),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
@@ -61,7 +65,7 @@ exports.dot = function(){
             .enter()
             .append('ellipse')
             .style('fill-opacity', 0.6)
-            .style('fill', '#65ffff')
+            .style('fill', function(d, i){ return color(i);})
             .attr('cy', c(y, value))
             .attr('cx', c(function(d){ return x(d) + x.rangeBand()/2;}, category))
             .attr('rx', '75')
