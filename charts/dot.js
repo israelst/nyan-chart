@@ -57,6 +57,7 @@ exports.dot = function(){
             .attr('transform', 'translate(0,' + xAxisTop + ')')
             .call(xAxis);
 
+        var ry = d3.max(y.range());
         selection.append('defs')
             .append('filter')
             .attr('id', 'myGaussianBlur')
@@ -74,10 +75,10 @@ exports.dot = function(){
             .append('ellipse')
             .style('fill-opacity', 0.6)
             .style('fill', c(color, index))
-            .attr('cy', c(inc(100), y, value))
+            .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', '75')
-            .attr('ry', '100')
+            .attr('rx', c(inc(ry), y, value))
+            .attr('ry', ry)
             .sort(function(a, b){ return value(b) - value(a);});
     }
     return chart;
