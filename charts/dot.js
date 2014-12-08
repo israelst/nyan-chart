@@ -77,7 +77,8 @@ exports.dot = function(){
             .attr('cy', c(inc(100), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
             .attr('rx', '75')
-            .attr('ry', '100');
+            .attr('ry', '100')
+            .sort(function(a, b){ return value(b) - value(a);});
     }
     return chart;
 };
