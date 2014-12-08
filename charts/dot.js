@@ -2,9 +2,12 @@ var d3 = require('d3');
 
 function category(d){ return d[0];}
 function value(d){ return d[1];}
-function c(f1, f2){
-    return function(){
-        return f1(f2.apply(this, arguments));
+function index(d, i){ return i;}
+function c(){
+    return [].reduce.call(arguments, function(f1, f2){
+        return function(){
+            return f1(f2.apply(this, arguments));
+        };
     });
 }
 function inc(increment){
@@ -44,7 +47,7 @@ exports.dot = function(){
             .attr('class', 'point')
             .attr('r', '4')
             .attr('cy', c(y, value))
-            .attr('cx', c(function(d){ return x(d) + x.rangeBand()/2;}, category));
+            .attr('cx', c(inc(x.rangeBand()/2), x, category));
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + left + ',0)')
@@ -70,8 +73,8 @@ exports.dot = function(){
             .enter()
             .append('ellipse')
             .style('fill-opacity', 0.6)
-            .style('fill', function(d, i){ return color(i);})
-            .attr('cy', c(y, value))
+            .style('fill', c(color, index))
+            .attr('cy', c(inc(100), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
             .attr('rx', '75')
             .attr('ry', '100');
