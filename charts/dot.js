@@ -63,8 +63,7 @@ exports.dot = function(){
             .attr('id', 'myGaussianBlur')
             .append('feGaussianBlur')
             .attr('in', 'SourceGraphic')
-            .attr('stdDeviation', 15);
-
+            .attr('stdDeviation', 30);
 
         selection
             .append('g')
@@ -73,7 +72,7 @@ exports.dot = function(){
             .data(data)
             .enter()
             .append('ellipse')
-            .style('fill-opacity', 0.6)
+            .style('fill-opacity', 0.4)
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
