@@ -48,7 +48,6 @@ function rainbow(x, y, color){
 exports.dot = function(colors){
     var width = 1280,
         top = 75,
-        bottom = 130,
         left = 165,
         right = 190,
         xAxisTop = 360;
