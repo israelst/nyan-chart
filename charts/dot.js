@@ -81,7 +81,7 @@ exports.dot = function(colors){
             .enter()
             .append('circle')
             .attr('class', 'point')
-            .attr('r', '4')
+            .attr('r', '6')
             .attr('cy', c(y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category));
 
