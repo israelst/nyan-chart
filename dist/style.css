@@ -1,0 +1,26 @@
+html, body{
+    margin: 0;
+    height: 100%;
+    background-color: #EEE;
+    font-family: 'Lato', sans-serif;
+}
+
+circle.point{
+    fill: transparent;
+    stroke: #FFF;
+    stroke-width: 4;
+}
+
+path.domain{
+    display: none;
+}
+
+.y.axis text{
+    font-size: 15px;
+    fill: #111111;
+}
+
+.x.axis text{
+    font-size: 25px;
+    fill: #252525;
+}
