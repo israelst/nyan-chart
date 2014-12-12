@@ -70,9 +70,10 @@ exports.dot = function(colors){
                 .interpolate(d3.interpolateString);
         }
 
-        selection.attr('viewBox', '0 0 ' + width + ' 515')
-                .attr('preserveAspectRatio', 'xMidYMid meet')
-                .attr('width', '100%');
+        selection.classed('nyan-chart-dot', true)
+            .attr('viewBox', '0 0 ' + width + ' 515')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', '100%');
 
         selection.call(rainbow(x, y, color));
 
