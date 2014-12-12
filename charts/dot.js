@@ -39,7 +39,7 @@ function rainbow(x, y, color){
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', c(inc(ry), y, value))
+            .attr('rx', x.rangeBand() * 2.5)
             .attr('ry', ry)
             .sort(function(a, b){ return value(b) - value(a);});
     };
