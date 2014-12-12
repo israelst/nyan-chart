@@ -35,7 +35,6 @@ function rainbow(x, y, color){
             .data(data)
             .enter()
             .append('ellipse')
-            .style('fill-opacity', 0.4)
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))

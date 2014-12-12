@@ -17,3 +17,7 @@
     font-size: 25px;
     fill: #252525;
 }
+
+ellipse{
+    fill-opacity: 0.5;
+}
