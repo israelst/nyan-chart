@@ -44,6 +44,10 @@ function rainbow(x, y, color){
     };
 }
 
+function ceil(value){
+    return Math.ceil(value/100) * 100;
+}
+
 exports.dot = function(colors){
     var width = 1280,
         top = 75,
@@ -53,10 +57,11 @@ exports.dot = function(colors){
 
     function chart(selection){
         var data = selection.datum(),
+            max = ceil(d3.max(data, value)),
             categories = data.map(category),
             color = d3.scale.linear(),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, 100]).range([xAxisTop - 45, top]),
+            y = d3.scale.linear().domain([0, max]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
