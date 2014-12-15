@@ -23,7 +23,7 @@ window.addEventListener('load', function(){
         .append('svg')
         .style('width', '50%')
         .datum(data1)
-        .call(dot(colors));
+        .call(dot().colors(colors));
 
     d3.select('body')
         .append('svg')

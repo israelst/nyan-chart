@@ -38,7 +38,7 @@ function rainbow(x, y, color){
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', x.rangeBand() * 2.5)
+            .attr('rx', x.rangeBand() * 2)
             .attr('ry', ry)
             .sort(function(a, b){ return value(b) - value(a);});
     };
@@ -53,33 +53,32 @@ exports.dot = function(colors){
         top = 75,
         left = 165,
         right = 190,
-        xAxisTop = 360;
+        xAxisTop = 360,
+        _color = d3.scale.linear()
+                    .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
+                    .interpolate(d3.interpolateString);
 
     function chart(selection){
         var data = selection.datum(),
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
-            color = d3.scale.linear(),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, max]).range([xAxisTop - 45, top]),
             xAxis = d3.svg.axis().scale(x),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
-        if(colors){
-            color.domain(categories.map(index))
-                .range(colors);
-        }else{
-            color.domain([0, categories.length])
-                .range(['hsl(0,100%,70%)', 'hsl(360,100%,70%)'])
-                .interpolate(d3.interpolateString);
-        }
+            if(_color.range().length === 2){
+                _color.domain([0, categories.length]);
+            }else{
+                _color.domain(d3.range(categories.length));
+            }
 
         selection.classed('nyan-chart-dot', true)
             .attr('viewBox', '0 0 ' + width + ' 515')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
-        selection.call(rainbow(x, y, color));
+        selection.call(rainbow(x, y, _color));
 
         selection.selectAll('circle')
             .data(data)
@@ -99,5 +98,14 @@ exports.dot = function(colors){
             .call(xAxis);
 
     }
+
+    chart.colors = function(value){
+        if(!arguments.length){
+            return _color.range();
+        }
+        _color.range(value).interpolate(d3.interpolateHsl);
+        return chart;
+    };
+
     return chart;
 };
