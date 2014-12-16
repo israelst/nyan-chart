@@ -16,7 +16,7 @@
 .nyan-chart-dot .x.axis line {
     fill: none;
     shape-rendering: crispEdges;
-    stroke-width: 3;
+    stroke-width: 4;
 }
 
 .nyan-chart-dot .x.axis text{
