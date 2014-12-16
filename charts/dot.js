@@ -28,8 +28,7 @@ function rainbow(x, y, color){
             .attr('in', 'SourceGraphic')
             .attr('stdDeviation', 30);
 
-        selection
-            .append('g')
+        selection.append('g')
             .style('filter', 'url(#myGaussianBlur)')
             .selectAll('ellipse')
             .data(data)
@@ -53,7 +52,7 @@ exports.dot = function(colors){
         top = 75,
         left = 165,
         right = 190,
-        xAxisTop = 360,
+        xAxisTop = 315,
         _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
@@ -63,8 +62,9 @@ exports.dot = function(colors){
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, max]).range([xAxisTop - 45, top]),
-            xAxis = d3.svg.axis().scale(x),
+            y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]),
+            yTickSize = y.range()[1] - y.range()[0],
+            xAxis = d3.svg.axis().scale(x).tickSize(yTickSize).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
             if(_color.range().length === 2){
