@@ -64,7 +64,7 @@ exports.dot = function(colors){
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]),
             yTickSize = y.range()[1] - y.range()[0],
-            xAxis = d3.svg.axis().scale(x).tickSize(yTickSize).tickPadding(45),
+            xAxis = d3.svg.axis().scale(x).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
             if(_color.range().length === 2){
@@ -79,6 +79,22 @@ exports.dot = function(colors){
             .attr('width', '100%');
 
         selection.call(rainbow(x, y, _color));
+
+        selection.selectAll('path.ticks')
+            .data(data)
+            .enter()
+            .append('path')
+            .attr('class', 'ticks')
+            .attr('d', function(d){
+                var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
+                    margin = 12,
+                    middleStop = (y(value(d)) + margin),
+                    middleStart = Math.max(y(value(d)) - margin, y.range()[1]);
+                return ('M' + xPos + ',' + y.range()[0] +
+                        'V' + middleStop  +
+                        'M' + xPos + ',' + middleStart +
+                        'V' + y.range()[1]);
+            });
 
         var onEnter = selection.selectAll('circle')
             .data(data)

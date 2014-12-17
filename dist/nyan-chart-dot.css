@@ -13,8 +13,7 @@
     fill: #111111;
 }
 
-.nyan-chart-dot .x.axis line {
-    fill: none;
+.nyan-chart-dot path.ticks{
     shape-rendering: crispEdges;
     stroke-width: 4;
 }
@@ -24,7 +23,7 @@
     fill: #252525;
 }
 
-.nyan-chart-dot .x.axis line,
+.nyan-chart-dot path.ticks,
 .nyan-chart-dot circle.point{
     stroke: #89756F;
 }
