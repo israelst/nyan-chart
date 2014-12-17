@@ -80,14 +80,18 @@ exports.dot = function(colors){
 
         selection.call(rainbow(x, y, _color));
 
-        selection.selectAll('circle')
+        var onEnter = selection.selectAll('circle')
             .data(data)
-            .enter()
-            .append('circle')
+            .enter();
+        onEnter.append('circle')
             .attr('class', 'point')
             .attr('r', '6')
             .attr('cy', c(y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category));
+        onEnter.append('text')
+            .attr('x', c(inc(x.rangeBand()/2), x, category))
+            .attr('y', c(y, value))
+            .text(value);
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + left + ',0)')
