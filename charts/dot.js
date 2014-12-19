@@ -99,13 +99,17 @@ exports.dot = function(colors){
         var onEnter = selection.selectAll('circle')
             .data(data)
             .enter();
+
         onEnter.append('circle')
             .attr('class', 'point')
             .attr('r', '6')
             .attr('cy', c(y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category));
+
         onEnter.append('text')
             .attr('x', c(inc(x.rangeBand()/2), x, category))
+            .attr('dx', '1.5em')
+            .attr('dy', '0.3em')
             .attr('y', c(y, value))
             .text(value);
 
