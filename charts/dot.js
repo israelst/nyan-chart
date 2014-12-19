@@ -96,6 +96,23 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
+        selection.append('path')
+            .attr('class', 'baloon')
+            .attr('d', function(d){
+                var height = 100,
+                    arrow = height * 0.1,
+                    width = 300;
+                return ('M0,' + height/2 +
+                        'l' + arrow + ',' + (-arrow) +
+                        'V0' +
+                        'H' + width +
+                        'V' + height +
+                        'H' + arrow +
+                        'v' + arrow +
+                        'Z');
+            });
+
+
         var onEnter = selection.selectAll('circle')
             .data(data)
             .enter();
