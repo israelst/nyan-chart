@@ -15,6 +15,7 @@
 
 .nyan-chart-dot path.ticks{
     shape-rendering: crispEdges;
+    stroke-linecap: round;
     stroke-width: 4;
 }
 
