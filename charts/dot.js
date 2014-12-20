@@ -96,29 +96,27 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
-        function join(){
-            return [].map.call(arguments, inc('')).join(' ');
+        function baloonPath(width, height, radius, arrow){
+            function join(){
+                return [].map.call(arguments, inc('')).join(' ');
+            }
+
+            return ('M' + join(0, height/2) +
+                    'l' + join(arrow, -arrow) +
+                    'V' + radius +
+                    'q' + join(0, -radius, radius, -radius) +
+                    'H' + (width - radius) +
+                    'q' + join(radius, 0, radius, radius) +
+                    'V' + (height - radius) +
+                    'q' + join(0, radius, -radius, radius) +
+                    'H' + (arrow + radius) +
+                    'q' + join(-radius, 0, -radius, -radius) +
+                    'V' + (height/2 + arrow) +
+                    'Z');
         }
         selection.append('path')
             .attr('class', 'baloon')
-            .attr('d', function(d){
-                var height = 100,
-                    width = 300,
-                    radius = 10,
-                    arrow = height * 0.1;
-                return ('M' + join(0, height/2) +
-                        'l' + join(arrow, -arrow) +
-                        'V' + radius +
-                        'q' + join(0, -radius, radius, -radius) +
-                        'H' + (width - radius) +
-                        'q' + join(radius, 0, radius, radius) +
-                        'V' + (height - radius) +
-                        'q' + join(0, radius, -radius, radius) +
-                        'H' + (arrow + radius) +
-                        'q' + join(-radius, 0, -radius, -radius) +
-                        'V' + (height/2 + arrow) +
-                        'Z');
-            });
+            .attr('d', baloonPath(300, 100, 10, 10));
 
 
         var onEnter = selection.selectAll('circle')
