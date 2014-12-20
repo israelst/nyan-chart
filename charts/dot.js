@@ -108,7 +108,7 @@ exports.dot = function(colors){
                         'H' + width +
                         'V' + height +
                         'H' + arrow +
-                        'v' + arrow +
+                        'V' + (height/2 + arrow) +
                         'Z');
             });
 
