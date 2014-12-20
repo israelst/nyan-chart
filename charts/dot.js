@@ -96,6 +96,9 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
+        function join(){
+            return [].map.call(arguments, inc('')).join(' ');
+        }
         selection.append('path')
             .attr('class', 'baloon')
             .attr('d', function(d){
@@ -103,16 +106,16 @@ exports.dot = function(colors){
                     width = 300,
                     radius = 10,
                     arrow = height * 0.1;
-                return ('M0,' + height/2 +
-                        'l' + arrow + ',' + (-arrow) +
+                return ('M' + join(0, height/2) +
+                        'l' + join(arrow, -arrow) +
                         'V' + radius +
-                        'q' + '0 ' + -radius + ' ' + radius + ' ' + -radius +
+                        'q' + join(0, -radius, radius, -radius) +
                         'H' + (width - radius) +
-                        'q' + radius + ' 0 ' + radius + ' ' + radius +
+                        'q' + join(radius, 0, radius, radius) +
                         'V' + (height - radius) +
-                        'q' + '0 ' + radius + ' ' + -radius + ' ' + radius +
+                        'q' + join(0, radius, -radius, radius) +
                         'H' + (arrow + radius) +
-                        'q' + -radius + ' 0 ' + -radius + ' ' + -radius +
+                        'q' + join(-radius, 0, -radius, -radius) +
                         'V' + (height/2 + arrow) +
                         'Z');
             });
