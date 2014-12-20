@@ -100,14 +100,19 @@ exports.dot = function(colors){
             .attr('class', 'baloon')
             .attr('d', function(d){
                 var height = 100,
-                    arrow = height * 0.1,
-                    width = 300;
+                    width = 300,
+                    radius = 10,
+                    arrow = height * 0.1;
                 return ('M0,' + height/2 +
                         'l' + arrow + ',' + (-arrow) +
-                        'V0' +
-                        'H' + width +
-                        'V' + height +
-                        'H' + arrow +
+                        'V' + radius +
+                        'q' + '0 ' + -radius + ' ' + radius + ' ' + -radius +
+                        'H' + (width - radius) +
+                        'q' + radius + ' 0 ' + radius + ' ' + radius +
+                        'V' + (height - radius) +
+                        'q' + '0 ' + radius + ' ' + -radius + ' ' + radius +
+                        'H' + (arrow + radius) +
+                        'q' + -radius + ' 0 ' + -radius + ' ' + -radius +
                         'V' + (height/2 + arrow) +
                         'Z');
             });
