@@ -1,4 +1,4 @@
-.nyan-chart-dot circle.point{
+.nyan-chart-dot .point circle{
     fill: transparent;
     stroke: #FFF;
     stroke-width: 4;
@@ -13,10 +13,22 @@
     fill: #111111;
 }
 
+.nyan-chart-dot path.ticks{
+    shape-rendering: crispEdges;
+    stroke-linecap: round;
+    stroke-width: 4;
+}
+
 .nyan-chart-dot .x.axis text{
     font-size: 25px;
     fill: #252525;
 }
+
+.nyan-chart-dot path.ticks,
+.nyan-chart-dot .point circle{
+    stroke: #89756F;
+}
+
 
 ellipse{
     fill-opacity: 0.5;

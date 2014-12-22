@@ -15,6 +15,9 @@ function inc(increment){
         return increment + value;
     };
 }
+function ceil(value){
+    return Math.ceil(value/100) * 100;
+}
 
 function rainbow(x, y, color){
     return function(selection){
@@ -28,8 +31,7 @@ function rainbow(x, y, color){
             .attr('in', 'SourceGraphic')
             .attr('stdDeviation', 30);
 
-        selection
-            .append('g')
+        selection.append('g')
             .style('filter', 'url(#myGaussianBlur)')
             .selectAll('ellipse')
             .data(data)
@@ -38,14 +40,29 @@ function rainbow(x, y, color){
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', x.rangeBand() * 2.5)
+            .attr('rx', x.rangeBand() * 2)
             .attr('ry', ry)
             .sort(function(a, b){ return value(b) - value(a);});
     };
 }
 
-function ceil(value){
-    return Math.ceil(value/100) * 100;
+function baloonPath(width, height, radius, arrow){
+    function join(){
+        return [].map.call(arguments, inc('')).join(' ');
+    }
+
+    return ('M' + join(0, height/2) +
+            'l' + join(arrow, -arrow) +
+            'V' + radius +
+            'q' + join(0, -radius, radius, -radius) +
+            'H' + (width - radius) +
+            'q' + join(radius, 0, radius, radius) +
+            'V' + (height - radius) +
+            'q' + join(0, radius, -radius, radius) +
+            'H' + (arrow + radius) +
+            'q' + join(-radius, 0, -radius, -radius) +
+            'V' + (height/2 + arrow) +
+            'Z');
 }
 
 exports.dot = function(colors){
@@ -53,42 +70,76 @@ exports.dot = function(colors){
         top = 75,
         left = 165,
         right = 190,
-        xAxisTop = 360;
+        xAxisTop = 315,
+        _color = d3.scale.linear()
+                    .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
+                    .interpolate(d3.interpolateString);
 
     function chart(selection){
         var data = selection.datum(),
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
-            color = d3.scale.linear(),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, max]).range([xAxisTop - 45, top]),
-            xAxis = d3.svg.axis().scale(x),
+            y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]),
+            yTickSize = y.range()[1] - y.range()[0],
+            xAxis = d3.svg.axis().scale(x).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
 
-        if(colors){
-            color.domain(categories.map(index))
-                .range(colors);
-        }else{
-            color.domain([0, categories.length])
-                .range(['hsl(0,100%,70%)', 'hsl(360,100%,70%)'])
-                .interpolate(d3.interpolateString);
-        }
+            if(_color.range().length === 2){
+                _color.domain([0, categories.length]);
+            }else{
+                _color.domain(d3.range(categories.length));
+            }
 
         selection.classed('nyan-chart-dot', true)
             .attr('viewBox', '0 0 ' + width + ' 515')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
-        selection.call(rainbow(x, y, color));
+        selection.call(rainbow(x, y, _color));
 
-        selection.selectAll('circle')
+        selection.selectAll('path.ticks')
             .data(data)
             .enter()
-            .append('circle')
+            .append('path')
+            .attr('class', 'ticks')
+            .attr('d', function(d){
+                var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
+                    margin = 12,
+                    middleStop = (y(value(d)) + margin),
+                    middleStart = Math.max(y(value(d)) - margin, y.range()[1]);
+                return ('M' + xPos + ',' + y.range()[0] +
+                        'V' + middleStop  +
+                        'M' + xPos + ',' + middleStart +
+                        'V' + y.range()[1]);
+            });
+
+        var points = selection.selectAll('g.point')
+            .data(data)
+            .enter()
+            .append('g')
             .attr('class', 'point')
-            .attr('r', '6')
-            .attr('cy', c(y, value))
-            .attr('cx', c(inc(x.rangeBand()/2), x, category));
+            .attr('transform', function(d){
+                var dx = c(inc(x.rangeBand()/2), x, category)(d),
+                    dy = c(y, value)(d);
+                return 'translate(' + dx + ',' + dy + ')';
+            });
+
+
+        points.append('circle').attr('r', 6);
+
+        points.append('g')
+            .attr('transform', 'translate(10, -12)')
+            .attr('class', 'balloon')
+            .append('path')
+            .attr('fill', c(_color, index))
+            .attr('d', baloonPath(50, 23, 5, 4));
+
+        points.append('text')
+            .attr('dx', '2.35em')
+            .attr('dy', '0.3em')
+            .style('text-anchor', 'middle')
+            .text(value);
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + left + ',0)')
@@ -99,5 +150,14 @@ exports.dot = function(colors){
             .call(xAxis);
 
     }
+
+    chart.colors = function(value){
+        if(!arguments.length){
+            return _color.range();
+        }
+        _color.range(value).interpolate(d3.interpolateHsl);
+        return chart;
+    };
+
     return chart;
 };
