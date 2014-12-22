@@ -68,8 +68,8 @@ function baloonPath(width, height, radius, arrow){
 exports.dot = function(colors){
     var width = 1280,
         top = 75,
-        left = 165,
-        right = 190,
+        left = 96,
+        right = 0,
         xAxisTop = 315,
         _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
