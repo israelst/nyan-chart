@@ -133,11 +133,12 @@ exports.dot = function(colors){
             .attr('class', 'balloon')
             .append('path')
             .attr('fill', c(_color, index))
-            .attr('d', baloonPath(50, 25, 5, 4));
+            .attr('d', baloonPath(50, 23, 5, 4));
 
         points.append('text')
-            .attr('dx', '1.5em')
+            .attr('dx', '2.35em')
             .attr('dy', '0.3em')
+            .style('text-anchor', 'middle')
             .text(value);
 
         selection.append('g').attr('class', 'y axis')
