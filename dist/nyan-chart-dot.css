@@ -1,4 +1,4 @@
-.nyan-chart-dot circle.point{
+.nyan-chart-dot .point circle{
     fill: transparent;
     stroke: #FFF;
     stroke-width: 4;
@@ -25,7 +25,7 @@
 }
 
 .nyan-chart-dot path.ticks,
-.nyan-chart-dot circle.point{
+.nyan-chart-dot .point circle{
     stroke: #89756F;
 }
 

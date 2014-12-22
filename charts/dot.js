@@ -114,26 +114,30 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
-        selection.append('path')
-            .attr('class', 'baloon')
-            .attr('d', baloonPath(300, 100, 10, 10));
-
-
-        var onEnter = selection.selectAll('circle')
+        var points = selection.selectAll('g.point')
             .data(data)
-            .enter();
-
-        onEnter.append('circle')
+            .enter()
+            .append('g')
             .attr('class', 'point')
-            .attr('r', '6')
-            .attr('cy', c(y, value))
-            .attr('cx', c(inc(x.rangeBand()/2), x, category));
+            .attr('transform', function(d){
+                var dx = c(inc(x.rangeBand()/2), x, category)(d),
+                    dy = c(y, value)(d);
+                return 'translate(' + dx + ',' + dy + ')';
+            });
 
-        onEnter.append('text')
-            .attr('x', c(inc(x.rangeBand()/2), x, category))
+
+        points.append('circle').attr('r', 6);
+
+        points.append('g')
+            .attr('transform', 'translate(10, -12)')
+            .attr('class', 'balloon')
+            .append('path')
+            .attr('fill', c(_color, index))
+            .attr('d', baloonPath(50, 25, 5, 4));
+
+        points.append('text')
             .attr('dx', '1.5em')
             .attr('dy', '0.3em')
-            .attr('y', c(y, value))
             .text(value);
 
         selection.append('g').attr('class', 'y axis')
