@@ -83,7 +83,7 @@ exports.dot = function(colors){
             y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]),
             yTickSize = y.range()[1] - y.range()[0],
             xAxis = d3.svg.axis().scale(x).tickPadding(45),
-            yAxis = d3.svg.axis().scale(y).orient('left').ticks(4);
+            yAxis = d3.svg.axis().scale(y).orient('left').tickValues(d3.range(0, max + 1, max/4));
 
             if(_color.range().length === 2){
                 _color.domain([0, categories.length]);
