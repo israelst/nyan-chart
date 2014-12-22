@@ -25,16 +25,10 @@ module.exports = function(grunt) {
         },
         watch: {
             test: {
-                options: {
-                    spawn: false,
-                },
                 files: ['**/*.js'],
                 tasks: ['mochaTest']
             },
             build: {
-                options: {
-                    spawn: false,
-                },
                 files: ['**/*.js', '!test/**/*.js'],
                 tasks: ['browserify']
             }
