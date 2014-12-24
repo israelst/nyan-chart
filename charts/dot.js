@@ -2,7 +2,7 @@ var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
     c = util.c,
-    balloonPath = require('./balloon').balloonPath;
+    balloon = require('./balloon');
 
 function category(d){ return d[0];}
 function value(d){ return d[1];}
@@ -98,21 +98,9 @@ exports.dot = function(colors){
                 return 'translate(' + dx + ',' + dy + ')';
             });
 
-
         points.append('circle').attr('r', 6);
 
-        points.append('g')
-            .attr('transform', 'translate(10, -12)')
-            .attr('class', 'balloon')
-            .append('path')
-            .attr('fill', c(_color, index))
-            .attr('d', baloonPath(50, 23, 5, 4));
-
-        points.append('text')
-            .attr('dx', '2.35em')
-            .attr('dy', '0.3em')
-            .style('text-anchor', 'middle')
-            .text(value);
+        points.call(balloon.tooltip(value, c(_color, index)));
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + left + ',0)')

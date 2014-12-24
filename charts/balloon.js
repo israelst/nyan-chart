@@ -1,20 +1,42 @@
-var inc = require('../util').inc;
+var util = require('../util');
+    inc = util.inc;
 
-exports.balloonPath = function (width, height, radius, arrow){
+function path(width, height, radius, arrow){
     function join(){
-        return [].map.call(arguments, inc('')).join(' ');
+        return [].map.call(arguments, inc('')).join(',');
     }
 
-    return ('M' + join(0, height/2) +
-            'l' + join(arrow, -arrow) +
-            'V' + radius +
-            'q' + join(0, -radius, radius, -radius) +
-            'H' + (width - radius) +
-            'q' + join(radius, 0, radius, radius) +
-            'V' + (height - radius) +
-            'q' + join(0, radius, -radius, radius) +
-            'H' + (arrow + radius) +
-            'q' + join(-radius, 0, -radius, -radius) +
-            'V' + (height/2 + arrow) +
-            'Z');
+    return ('M' + join(15, 0) +
+            ' l' + join(arrow, -arrow) +
+            ' v' + (-height/2 + 2*radius) +
+            ' q' + join(0, -radius, radius, -radius) +
+            ' h' + width +
+            ' q' + join(radius, 0, radius, radius) +
+            ' v' + (height - 2*radius) +
+            ' q' + join(0, radius, -radius, radius) +
+            ' h' + -width +
+            ' q' + join(-radius, 0, -radius, -radius) +
+            ' v' + (-height/2 + 2*radius) +
+            ' Z');
+}
+
+exports.tooltip = function (text, color){
+    return function(selection){
+        var balloonEl = selection.append('path');
+        selection.append('text')
+            .attr('dx', 22)
+            .attr('dy', '.4em')
+            .text(text);
+
+        balloonEl
+            .attr('fill', color)
+            .attr('d', function(){
+                var textNode = this.nextElementSibling,
+                    width = textNode.getComputedTextLength(),
+                    height = 23;
+
+                return path(Math.ceil(width), height, 5, 4);
+            });
+
+    };
 };
