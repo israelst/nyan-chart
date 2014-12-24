@@ -1,7 +1,8 @@
 var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
-    c = util.c;
+    c = util.c,
+    balloonPath = require('./balloon').balloonPath;
 
 function category(d){ return d[0];}
 function value(d){ return d[1];}
@@ -35,25 +36,6 @@ function rainbow(x, y, color){
             .attr('ry', ry)
             .sort(function(a, b){ return value(b) - value(a);});
     };
-}
-
-function baloonPath(width, height, radius, arrow){
-    function join(){
-        return [].map.call(arguments, inc('')).join(' ');
-    }
-
-    return ('M' + join(0, height/2) +
-            'l' + join(arrow, -arrow) +
-            'V' + radius +
-            'q' + join(0, -radius, radius, -radius) +
-            'H' + (width - radius) +
-            'q' + join(radius, 0, radius, radius) +
-            'V' + (height - radius) +
-            'q' + join(0, radius, -radius, radius) +
-            'H' + (arrow + radius) +
-            'q' + join(-radius, 0, -radius, -radius) +
-            'V' + (height/2 + arrow) +
-            'Z');
 }
 
 exports.dot = function(colors){
@@ -139,7 +121,6 @@ exports.dot = function(colors){
         selection.append('g').attr('class', 'x axis')
             .attr('transform', 'translate(0,' + xAxisTop + ')')
             .call(xAxis);
-
     }
 
     chart.colors = function(value){
