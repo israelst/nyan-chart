@@ -1,20 +1,11 @@
-var d3 = require('d3');
+var d3 = require('d3'),
+    util = require('../util'),
+    inc = util.inc,
+    c = util.c;
 
 function category(d){ return d[0];}
 function value(d){ return d[1];}
 function index(d, i){ return i;}
-function c(){
-    return [].reduce.call(arguments, function(f1, f2){
-        return function(){
-            return f1(f2.apply(this, arguments));
-        };
-    });
-}
-function inc(increment){
-    return function (value){
-        return increment + value;
-    };
-}
 function ceil(value){
     return Math.ceil(value/100) * 100;
 }
