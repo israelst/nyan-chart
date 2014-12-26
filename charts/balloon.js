@@ -32,8 +32,9 @@ exports.tooltip = function (text, color){
             .attr('fill', color)
             .attr('d', function(){
                 var textNode = this.nextElementSibling,
+                    clientRect = textNode.getClientRects()[0],
                     width = textNode.getComputedTextLength(),
-                    height = 23;
+                    height = clientRect.height;
 
                 return path(Math.ceil(width), height, 5, 4);
             });
