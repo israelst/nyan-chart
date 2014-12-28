@@ -53,7 +53,7 @@ exports.dot = function(colors){
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]),
+            y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]).clamp(true),
             yTickSize = y.range()[1] - y.range()[0],
             xAxis = d3.svg.axis().scale(x).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').tickValues(d3.range(0, max + 1, max/4));
@@ -79,7 +79,7 @@ exports.dot = function(colors){
             .attr('d', function(d){
                 var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
                     margin = 12,
-                    middleStop = (y(value(d)) + margin),
+                    middleStop = Math.min(y(value(d)) + margin, y.range()[0]),
                     middleStart = Math.max(y(value(d)) - margin, y.range()[1]);
                 return ('M' + xPos + ',' + y.range()[0] +
                         'V' + middleStop  +
