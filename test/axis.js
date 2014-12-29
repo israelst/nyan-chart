@@ -24,9 +24,23 @@ describe('WordWrapping', function(){
         axisContainer.call(xAxis.scale(x));
         assert.equal(foreignObjects().size(), categories.length);
     });
-    it('should use scale rangeBand as foreignObject width', function(){
-        axisContainer.call(xAxis.scale(x));
-        var foreignObjects = axisContainer.selectAll('foreignObject');
-        assert.equal(foreignObjects.attr('width'), x.rangeBand());
+    describe('foreignObject', function(){
+        beforeEach(function(){
+            axisContainer.call(xAxis.scale(x));
+        });
+        it('should use scale rangeBand as width', function(){
+            var foreignObjects = axisContainer.selectAll('foreignObject');
+            assert.equal(foreignObjects.attr('width'), x.rangeBand());
+        });
+        it('should contains html body', function(){
+            var body = axisContainer.selectAll('foreignObject > body');
+            assert.equal(body.node().namespaceURI, 'http://www.w3.org/1999/xhtml');
+            assert.equal(body.node().tagName, 'BODY');
+        });
+        it('should contains a div with category name', function(){
+            var divs = axisContainer.selectAll('foreignObject > body > div')[0],
+                texts = divs.map(function(div){ return div.textContent;});
+            assert.deepEqual(texts, categories);
+        });
     });
 });
