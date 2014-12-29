@@ -4,7 +4,8 @@ exports.wordWrapping = function(){
         container.selectAll('foreignObject')
             .data(scale.domain())
             .enter()
-            .append('foreignObject');
+            .append('foreignObject')
+            .attr('width', scale.rangeBand());
     }
     axis.scale = function(value){
         if(!arguments.length){
