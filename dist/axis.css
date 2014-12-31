@@ -1,0 +1,11 @@
+foreignObject body{
+    background-color: transparent;
+}
+
+foreignObject body div{
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 1.5em;
+}
+

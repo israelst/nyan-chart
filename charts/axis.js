@@ -1,15 +1,16 @@
 exports.wordWrapping = function(){
     var scale;
     function axis(container){
-        container.selectAll('foreignObject')
-            .data(scale.domain())
-            .enter()
-            .append('foreignObject')
-            .attr('width', scale.rangeBand())
-            .attr('x', scale)
-            .append('xhtml:body')
-            .append('xhtml:div')
-            .text(function(d){ return d;});
+        var foreignObject = container.selectAll('foreignObject')
+                .data(scale.domain())
+                .enter()
+                .append('foreignObject')
+                .attr('width', scale.rangeBand())
+                .attr('x', scale),
+            div = foreignObject.append('xhtml:body')
+                .append('xhtml:div')
+                .text(function(d){ return d;}).node();
+        foreignObject.attr('height', div.clientHeight);
     }
     axis.scale = function(value){
         if(!arguments.length){

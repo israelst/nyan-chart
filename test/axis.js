@@ -49,5 +49,17 @@ describe('WordWrapping', function(){
                 });
             assert.deepEqual(xs, x.range());
         });
+        xit('should have enough height to show the text', function(){
+            // This test passes when height is not setted due the lack of clientHeight property while running without a browser. A better way to test it is needed
+            var foreignObjects = axisContainer.selectAll('foreignObject')[0];
+            foreignObjects.forEach(function(foreignObject){
+                foreignObject = d3.select(foreignObject);
+                var foreignObjectHeight = foreignObject.attr('height'),
+                    divHeight = foreignObject.select('div').node().clientHeight;
+                console.log(foreignObjectHeight, divHeight);
+                assert.equal(foreignObjectHeight, divHeight);
+            });
+
+        });
     });
 });
