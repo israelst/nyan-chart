@@ -42,5 +42,12 @@ describe('WordWrapping', function(){
                 texts = divs.map(function(div){ return div.textContent;});
             assert.deepEqual(texts, categories);
         });
+        it('should vary x attr according to scale', function(){
+            var foreignObjects = axisContainer.selectAll('foreignObject')[0],
+                xs = foreignObjects.map(function(foreignObject){
+                    return d3.select(foreignObject).attr('x');
+                });
+            assert.deepEqual(xs, x.range());
+        });
     });
 });

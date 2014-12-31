@@ -6,6 +6,7 @@ exports.wordWrapping = function(){
             .enter()
             .append('foreignObject')
             .attr('width', scale.rangeBand())
+            .attr('x', scale)
             .append('xhtml:body')
             .append('xhtml:div')
             .text(function(d){ return d;});
