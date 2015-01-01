@@ -16,6 +16,11 @@ describe('WordWrapping', function(){
         assert.equal(xAxis.scale(), x);
     });
 
+    it('should set tickPadding properly', function(){
+        xAxis.tickPadding(45);
+        assert.equal(xAxis.tickPadding(), 45);
+    });
+
     it('should append one foreignObject for each domain item', function(){
         function foreignObjects(){
             return axisContainer.selectAll('foreignObject');
@@ -23,6 +28,15 @@ describe('WordWrapping', function(){
         assert.equal(foreignObjects().size(), 0);
         axisContainer.call(xAxis.scale(x));
         assert.equal(foreignObjects().size(), categories.length);
+    });
+    it('should set y from tickPadding', function(){
+        xAxis.scale(x).tickPadding(45);
+        axisContainer.call(xAxis);
+        var foreignObjects = axisContainer.selectAll('foreignObject')[0],
+            ys = foreignObjects.map(function(foreignObject){
+                return d3.select(foreignObject).attr('y');
+            });
+        assert.deepEqual(ys, [45, 45, 45]);
     });
     describe('foreignObject', function(){
         beforeEach(function(){
