@@ -2,7 +2,8 @@ var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
     c = util.c,
-    balloon = require('./balloon');
+    balloon = require('./balloon'),
+    wordWrapping = require('./axis').wordWrapping;
 
 function category(d){ return d[0];}
 function value(d){ return d[1];}
@@ -55,7 +56,7 @@ exports.dot = function(colors){
             x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]).clamp(true),
             yTickSize = y.range()[1] - y.range()[0],
-            xAxis = d3.svg.axis().scale(x).tickPadding(45),
+            xAxis = wordWrapping().scale(x).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').tickValues(d3.range(0, max + 1, max/4));
 
             if(_color.range().length === 2){
