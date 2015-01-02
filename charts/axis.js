@@ -1,33 +1,31 @@
+function accessor(name){
+    var attr;
+    this[name] = function(value){
+        if(!arguments.length){
+            return attr;
+        }
+        attr = value;
+        return this;
+    };
+}
+
 exports.wordWrapping = function(){
-    var scale, tickPadding;
     function axis(container){
         var foreignObject = container.selectAll('foreignObject')
-                .data(scale.domain())
+                .data(axis.scale().domain())
                 .enter()
                 .append('foreignObject')
-                .attr('width', scale.rangeBand())
-                .attr('x', scale)
-                .attr('y', tickPadding),
+                .attr('width', axis.scale().rangeBand())
+                .attr('x', axis.scale())
+                .attr('y', axis.tickPadding()),
             div = foreignObject.append('xhtml:body')
                 .append('xhtml:div')
                 .text(function(d){ return d;}).node();
         foreignObject.attr('height', div.clientHeight);
     }
 
-    axis.tickPadding = function(value){
-        if(!arguments.length){
-            return tickPadding;
-        }
-        tickPadding = value;
-        return axis;
-    };
+    accessor.call(axis, 'tickPadding');
+    accessor.call(axis, 'scale');
 
-    axis.scale = function(value){
-        if(!arguments.length){
-            return scale;
-        }
-        scale = value;
-        return axis;
-    };
     return axis;
 };
