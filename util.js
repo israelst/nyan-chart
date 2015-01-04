@@ -6,7 +6,7 @@ exports.c = function (){
     });
 };
 
-exports.inc = function inc(increment){
+exports.inc = function (increment){
     return function (value){
         return increment + value;
     };
