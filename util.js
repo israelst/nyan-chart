@@ -6,8 +6,19 @@ exports.c = function (){
     });
 };
 
-exports.inc = function inc(increment){
+exports.inc = function (increment){
     return function (value){
         return increment + value;
+    };
+};
+
+exports.accessor = function (name, defaultValue){
+    var attr = defaultValue;
+    this[name] = function(value){
+        if(arguments.length){
+            attr = value;
+            return this;
+        }
+        return attr;
     };
 };

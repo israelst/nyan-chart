@@ -1,13 +1,4 @@
-function accessor(name){
-    var attr;
-    this[name] = function(value){
-        if(!arguments.length){
-            return attr;
-        }
-        attr = value;
-        return this;
-    };
-}
+var accessor = require('../util').accessor;
 
 exports.wordWrapping = function(){
     function axis(container){
