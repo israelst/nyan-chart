@@ -11,3 +11,14 @@ exports.inc = function inc(increment){
         return increment + value;
     };
 };
+
+exports.accessor = function (name, defaultValue){
+    var attr = defaultValue;
+    this[name] = function(value){
+        if(arguments.length){
+            attr = value;
+            return this;
+        }
+        return attr;
+    };
+};
