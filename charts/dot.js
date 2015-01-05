@@ -41,11 +41,7 @@ function rainbow(x, y, color){
 }
 
 exports.dot = function(colors){
-    var top = 75,
-        left = 96,
-        right = 0,
-        xAxisTop = 315,
-        _color = d3.scale.linear()
+    var _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
 
@@ -53,8 +49,8 @@ exports.dot = function(colors){
         var data = selection.datum(),
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
-            x = d3.scale.ordinal().domain(categories).rangeBands([left, chart.width() - right], 0.3, 0.5),
-            y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]).clamp(true),
+            x = d3.scale.ordinal().domain(categories).rangeBands([chart.left(), chart.width() - chart.right()], 0.3, 0.5),
+            y = d3.scale.linear().domain([0, max]).range([chart.xAxisTop(), chart.top()]).clamp(true),
             yTickSize = y.range()[1] - y.range()[0],
             xAxis = wordWrapping().scale(x).tickPadding(45),
             yAxis = d3.svg.axis().scale(y).orient('left').tickValues(d3.range(0, max + 1, max/4));
@@ -104,11 +100,11 @@ exports.dot = function(colors){
         points.call(balloon.tooltip(value, c(_color, index)));
 
         selection.append('g').attr('class', 'y axis')
-            .attr('transform', 'translate(' + left + ',0)')
+            .attr('transform', 'translate(' + chart.left() + ',0)')
             .call(yAxis);
 
         selection.append('g').attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + xAxisTop + ')')
+            .attr('transform', 'translate(0,' + chart.xAxisTop() + ')')
             .call(xAxis);
     }
 
@@ -121,6 +117,10 @@ exports.dot = function(colors){
     };
 
     accessor.call(chart, 'width', 1280);
+    accessor.call(chart, 'top', 75);
+    accessor.call(chart, 'left', 96);
+    accessor.call(chart, 'right', 0);
+    accessor.call(chart, 'xAxisTop', 315);
 
     return chart;
 };
