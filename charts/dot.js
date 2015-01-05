@@ -2,6 +2,7 @@ var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
     c = util.c,
+    accessor = util.accessor,
     balloon = require('./balloon'),
     wordWrapping = require('./axis').wordWrapping;
 
@@ -40,8 +41,7 @@ function rainbow(x, y, color){
 }
 
 exports.dot = function(colors){
-    var width = 1280,
-        top = 75,
+    var top = 75,
         left = 96,
         right = 0,
         xAxisTop = 315,
@@ -53,7 +53,7 @@ exports.dot = function(colors){
         var data = selection.datum(),
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
-            x = d3.scale.ordinal().domain(categories).rangeBands([left, width - right], 0.3, 0.5),
+            x = d3.scale.ordinal().domain(categories).rangeBands([left, chart.width() - right], 0.3, 0.5),
             y = d3.scale.linear().domain([0, max]).range([xAxisTop, top]).clamp(true),
             yTickSize = y.range()[1] - y.range()[0],
             xAxis = wordWrapping().scale(x).tickPadding(45),
@@ -66,7 +66,7 @@ exports.dot = function(colors){
             }
 
         selection.classed('nyan-chart-dot', true)
-            .attr('viewBox', '0 0 ' + width + ' 515')
+            .attr('viewBox', '0 0 ' + chart.width() + ' 515')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
@@ -119,6 +119,8 @@ exports.dot = function(colors){
         _color.range(value).interpolate(d3.interpolateHsl);
         return chart;
     };
+
+    accessor.call(chart, 'width', 1280);
 
     return chart;
 };
