@@ -1,8 +1,10 @@
 foreignObject body{
+    display: block;
     background-color: transparent;
 }
 
 foreignObject body div{
+    display: block;
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;
