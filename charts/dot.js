@@ -12,7 +12,7 @@ function ceil(value){
     return Math.ceil(value/100) * 100;
 }
 
-function rainbow(x, y, color){
+function rainbow(x, y, color, category){
     return function(selection){
         var ry = d3.max(y.range()),
             data = selection.datum();
@@ -46,6 +46,7 @@ exports.dot = function(colors){
 
     function chart(selection){
         var data = selection.datum(),
+            category = chart.category(),
             max = ceil(d3.max(data, value)),
             categories = data.map(category),
             x = d3.scale.ordinal().domain(categories).rangeBands([chart.left(), chart.width() - chart.right()], 0.3, 0.5),
@@ -65,7 +66,7 @@ exports.dot = function(colors){
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
-        selection.call(rainbow(x, y, _color));
+        selection.call(rainbow(x, y, _color, category));
 
         selection.selectAll('path.ticks')
             .data(data)
