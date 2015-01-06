@@ -6,7 +6,6 @@ var d3 = require('d3'),
     balloon = require('./balloon'),
     wordWrapping = require('./axis').wordWrapping;
 
-function category(d){ return d[0];}
 function value(d){ return d[1];}
 function index(d, i){ return i;}
 function ceil(value){
@@ -121,6 +120,8 @@ exports.dot = function(colors){
     accessor.call(chart, 'left', 96);
     accessor.call(chart, 'right', 0);
     accessor.call(chart, 'xAxisTop', 315);
+
+    accessor.call(chart, 'category', function (d){ return d[0];});
 
     return chart;
 };
