@@ -24,7 +24,7 @@ exports.tooltip = function (text, color){
     return function(selection){
         var balloonEl = selection.append('path');
         selection.append('text')
-            .attr('dx', 24)
+            .attr('dx', 30)
             .attr('dy', '.35em')
             .text(text);
 
@@ -36,7 +36,7 @@ exports.tooltip = function (text, color){
                     clientRect = textNode.getClientRects()[0],
                     height = clientRect.height;
 
-                return path(Math.ceil(width), height, 5, 4);
+                return path(Math.ceil(width), height, 10, 4);
             });
     };
 };

@@ -16,7 +16,7 @@
 .nyan-chart-dot path.ticks{
     shape-rendering: crispEdges;
     stroke-linecap: round;
-    stroke-width: 4;
+    stroke-width: 2;
 }
 
 .nyan-chart-dot .x.axis text{
@@ -33,3 +33,8 @@
 ellipse{
     fill-opacity: 0.5;
 }
+
+g.point{
+    font-size: 20px;
+}
+
