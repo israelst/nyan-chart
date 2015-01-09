@@ -46,13 +46,14 @@ describe('WordWrapping', function(){
             var foreignObjects = axisContainer.selectAll('foreignObject');
             assert.equal(foreignObjects.attr('width'), x.rangeBand());
         });
-        it('should contains html body', function(){
-            var body = axisContainer.selectAll('foreignObject > body');
-            assert.equal(body.node().namespaceURI, 'http://www.w3.org/1999/xhtml');
-            assert.equal(body.node().tagName, 'BODY');
+        it('should contains html div identifiable by class', function(){
+            var divs = axisContainer.selectAll('foreignObject > div.wordwrapping-text');
+            assert.equal(divs.node().namespaceURI, 'http://www.w3.org/1999/xhtml');
+            assert.equal(divs.node().tagName, 'DIV');
+            assert.equal(divs.node().className, 'wordwrapping-text');
         });
         it('should contains a div with category name', function(){
-            var divs = axisContainer.selectAll('foreignObject > body > div')[0],
+            var divs = axisContainer.selectAll('foreignObject > div')[0],
                 texts = divs.map(function(div){ return div.textContent;});
             assert.deepEqual(texts, categories);
         });
