@@ -1,11 +1,7 @@
-foreignObject body{
-    display: block;
-    background-color: transparent;
-}
-
-foreignObject body div{
+div.wordwrapping-text{
     display: block;
     overflow: hidden;
+    background-color: transparent;
     text-align: center;
     text-overflow: ellipsis;
     font-size: 1.5em;

@@ -9,8 +9,8 @@ exports.wordWrapping = function(){
                 .attr('width', axis.scale().rangeBand())
                 .attr('x', axis.scale())
                 .attr('y', axis.tickPadding()),
-            div = foreignObject.append('xhtml:body')
-                .append('xhtml:div')
+            div = foreignObject.append('xhtml:div')
+                .attr('class', 'wordwrapping-text')
                 .text(function(d){ return d;}).node();
         foreignObject.attr('height', div.clientHeight);
     }
