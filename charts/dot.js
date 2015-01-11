@@ -52,7 +52,11 @@ exports.dot = function(colors){
             x = d3.scale.ordinal().domain(categories).rangeBands([chart.left(), chart.width() - chart.right()], 0.2, 0.5),
             y = d3.scale.linear().domain([0, max]).range([chart.xAxisTop(), chart.top()]).clamp(true),
             xAxis = wordWrapping().scale(x).tickPadding(45),
-            yAxis = d3.svg.axis().scale(y).orient('left').tickValues(d3.range(0, max + 1, max/4));
+            yAxis = d3.svg.axis()
+                .scale(y)
+                .orient('left')
+                .tickValues(d3.range(0, max + 1, max/4))
+                .tickFormat(chart.valueFormat());
 
             if(_color.range().length === 2){
                 _color.domain([0, categories.length]);
@@ -96,7 +100,7 @@ exports.dot = function(colors){
 
         points.append('circle').attr('r', 6);
 
-        points.call(balloon.tooltip(value, c(_color, index)));
+        points.call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')
@@ -120,6 +124,7 @@ exports.dot = function(colors){
     accessor.call(chart, 'left', 96);
     accessor.call(chart, 'right', 0);
     accessor.call(chart, 'xAxisTop', 315);
+    accessor.call(chart, 'valueFormat', d3.format("n"));
 
     accessor.call(chart, 'category', function (d){ return d[0];});
     accessor.call(chart, 'value', function (d){ return d[1];});
