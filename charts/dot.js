@@ -14,17 +14,17 @@ function ceil(value){
 function rainbow(x, y, color, category, value){
     return function(selection){
         var ry = d3.max(y.range()),
-            data = selection.datum();
+            data = selection.datum(),
+            filter = selection.append('defs')
+                .append('filter')
+                .attr('id', 'myGaussianBlur');
 
-        selection.append('defs')
-            .append('filter')
-            .attr('id', 'myGaussianBlur')
-            .append('feGaussianBlur')
+        filter.append('feGaussianBlur')
             .attr('in', 'SourceGraphic')
             .attr('stdDeviation', 80);
 
         selection.append('g')
-            .style('filter', 'url(#myGaussianBlur)')
+            .style('filter', 'url(#' + filter.attr('id') + ')')
             .selectAll('ellipse')
             .data(data)
             .enter()
