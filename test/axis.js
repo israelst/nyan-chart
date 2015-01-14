@@ -64,17 +64,17 @@ describe('WordWrapping', function(){
                 });
             assert.deepEqual(xs, x.range());
         });
-        xit('should have enough height to show the text', function(){
-            // This test passes when height is not setted due the lack of clientHeight property while running without a browser. A better way to test it is needed
-            var foreignObjects = axisContainer.selectAll('foreignObject')[0];
-            foreignObjects.forEach(function(foreignObject){
-                foreignObject = d3.select(foreignObject);
+        it('should have enough height to show the text', function(){
+            var foreignObjects = axisContainer.selectAll('foreignObject');
+            foreignObjects.each(function(value){
+                foreignObject = d3.select(this);
+                // Mock clientHeight value, the important thing here is vary according to value length to simulate browser wordwrapping
+                foreignObject.select('div').node().clientHeight = value.length;
+                axisContainer.call(xAxis.scale(x));
                 var foreignObjectHeight = foreignObject.attr('height'),
                     divHeight = foreignObject.select('div').node().clientHeight;
-                console.log(foreignObjectHeight, divHeight);
                 assert.equal(foreignObjectHeight, divHeight);
             });
-
         });
     });
 });
