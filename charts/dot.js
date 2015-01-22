@@ -61,7 +61,8 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
-        var points = selection.selectAll('g.point')
+        var points = selection.append('g').attr('class', 'points')
+            .selectAll('g.point')
             .data(data)
             .enter()
             .append('g')
