@@ -43,7 +43,9 @@ exports.dot = function(colors){
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
-        selection.call(rainbow(x, y, _color, category, value));
+        if(chart.rainbow()){
+            selection.call(chart.rainbow()(x, y, _color, category, value));
+        }
 
         selection.selectAll('path.ticks')
             .data(data)
@@ -100,6 +102,7 @@ exports.dot = function(colors){
     accessor.call(chart, 'right', 0);
     accessor.call(chart, 'xAxisTop', 315);
     accessor.call(chart, 'valueFormat', d3.format("n"));
+    accessor.call(chart, 'rainbow', rainbow);
 
     accessor.call(chart, 'category', function (d){ return d[0];});
     accessor.call(chart, 'value', function (d){ return d[1];});
