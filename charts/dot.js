@@ -47,7 +47,9 @@ exports.dot = function(colors){
             selection.call(chart.rainbow()(x, y, _color, category, value));
         }
 
-        selection.selectAll('path.ticks')
+        selection.append('g')
+            .attr('class', 'holeTicks')
+            .selectAll('path.ticks')
             .data(data)
             .enter()
             .append('path')
