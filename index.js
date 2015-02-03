@@ -1,6 +1,7 @@
 var d3 = require('d3'),
     dot = require('./charts/dot').dot;
 
+
 window.addEventListener('load', function(){
     var data1 = [['Category 1', 53],
                 ['Category 2', 23],
@@ -31,8 +32,12 @@ window.addEventListener('load', function(){
         .datum(data2)
         .call(dot());
 
-    d3.select('body')
-        .append('svg')
-        .datum(data2)
-        .call(dot());
+    var animatedChart = d3.select('body').append('svg');
+
+    setInterval(function(){
+        data3 = [1, 2, 3, 4].map(function(n){
+            return ['Category ' + n , Math.floor(Math.random() * 100)];
+        });
+        animatedChart.datum(data3).call(dot());
+    }, 2000);
 });
