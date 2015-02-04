@@ -47,13 +47,15 @@ exports.dot = function(colors){
             selection.call(chart.rainbow()(x, y, _color, category, value));
         }
 
-        selection.append('g')
-            .attr('class', 'holeTicks')
-            .selectAll('path.ticks')
-            .data(data)
+        selection.selectAll('g.holeTicks path.ticks')
+            .data(data, chart.category())
             .enter()
+            .append('g')
+            .attr('class', 'holeTicks')
             .append('path')
-            .attr('class', 'ticks')
+            .attr('class', 'ticks');
+
+        selection.selectAll('g.holeTicks path.ticks')
             .attr('d', function(d){
                 var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
                     margin = 12,
