@@ -47,11 +47,14 @@ exports.dot = function(colors){
             selection.call(chart.rainbow()(x, y, _color, category, value));
         }
 
-        selection.selectAll('g.holeTicks path.ticks')
+        if(selection.select('g.holeTicks').size() === 0){
+            selection.append('g').attr('class', 'holeTicks');
+        }
+
+        selection.select('g.holeTicks')
+            .selectAll('path.ticks')
             .data(data, chart.category())
             .enter()
-            .append('g')
-            .attr('class', 'holeTicks')
             .append('path')
             .attr('class', 'ticks');
 
@@ -69,7 +72,7 @@ exports.dot = function(colors){
 
         var points = selection.append('g').attr('class', 'points')
             .selectAll('g.point')
-            .data(data)
+            .data(data, chart.category())
             .enter()
             .append('g')
             .attr('class', 'point')
