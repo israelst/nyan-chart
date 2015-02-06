@@ -70,21 +70,23 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
-        var points = selection.append('g').attr('class', 'points')
-            .selectAll('g.point')
+
+        var points = selection.select('g.points');
+        if(points.size() === 0){
+            points = selection.append('g').attr('class', 'points');
+        }
+        points.selectAll('g.point')
             .data(data, chart.category())
             .enter()
             .append('g')
             .attr('class', 'point')
-            .attr('transform', function(d){
-                var dx = c(inc(x.rangeBand()/2), x, category)(d),
-                    dy = c(y, value)(d);
-                return 'translate(' + dx + ',' + dy + ')';
-            });
+            .append('circle').attr('r', 6);
 
-        points.append('circle').attr('r', 6);
-
-        points.call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
+        points.selectAll('g.point').attr('transform', function(d){
+            var dx = c(inc(x.rangeBand()/2), x, category)(d),
+                dy = c(y, value)(d);
+            return 'translate(' + dx + ',' + dy + ')';
+        }).call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
 
         selection.append('g').attr('class', 'y axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')
