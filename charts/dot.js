@@ -12,7 +12,7 @@ function ceil(value){
 }
 function index(d, i){ return i;}
 
-exports.dot = function(colors){
+exports.dot = function(){
     var _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
