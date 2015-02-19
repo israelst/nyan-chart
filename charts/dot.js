@@ -12,13 +12,15 @@ function ceil(value){
 }
 function index(d, i){ return i;}
 
-exports.dot = function(){
+exports.dot = function(selection){
     var _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
 
-    function chart(selection){
-        var data = selection.datum(),
+    selection.append('g').attr('class', 'holeTicks');
+
+    function chart(){
+        var data = chart.data(),
             category = chart.category(),
             value = chart.value(),
             max = ceil(d3.max(data, value)),
@@ -47,9 +49,6 @@ exports.dot = function(){
             selection.call(chart.rainbow()(x, y, _color, category, value));
         }
 
-        if(selection.select('g.holeTicks').size() === 0){
-            selection.append('g').attr('class', 'holeTicks');
-        }
 
         selection.select('g.holeTicks')
             .selectAll('path.ticks')
@@ -112,6 +111,7 @@ exports.dot = function(){
     accessor.call(chart, 'xAxisTop', 315);
     accessor.call(chart, 'valueFormat', d3.format("n"));
     accessor.call(chart, 'rainbow', rainbow);
+    accessor.call(chart, 'data');
 
     accessor.call(chart, 'category', function (d){ return d[0];});
     accessor.call(chart, 'value', function (d){ return d[1];});
