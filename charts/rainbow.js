@@ -20,7 +20,7 @@ exports.rainbow = function (x, y, color, category, value){
         selection.append('g')
             .style('filter', 'url(#' + filter.attr('id') + ')')
             .selectAll('ellipse')
-            .data(data)
+            .data(data, category)
             .enter()
             .append('ellipse')
             .style('fill', c(color, index))
