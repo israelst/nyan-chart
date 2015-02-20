@@ -18,6 +18,8 @@ exports.dot = function(selection){
                     .interpolate(d3.interpolateString);
 
     selection.append('g').attr('class', 'holeTicks');
+    selection.append('g').attr('class', 'y axis');
+    selection.append('g').attr('class', 'x axis');
 
     function chart(){
         var data = chart.data(),
@@ -87,11 +89,11 @@ exports.dot = function(selection){
             return 'translate(' + dx + ',' + dy + ')';
         }).call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
 
-        selection.append('g').attr('class', 'y axis')
+        selection.select('g.y.axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')
             .call(yAxis);
 
-        selection.append('g').attr('class', 'x axis')
+        selection.select('g.x.axis')
             .attr('transform', 'translate(0,' + chart.xAxisTop() + ')')
             .call(xAxis);
     }
