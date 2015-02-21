@@ -34,6 +34,7 @@ exports.tooltip = function (text, color){
 
         selection.select('path')
             .attr('fill', color)
+            .transition()
             .attr('d', function(){
                 var textNode = this.nextElementSibling,
                     width = textNode.getComputedTextLength(),
