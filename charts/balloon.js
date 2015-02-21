@@ -22,13 +22,17 @@ function path(width, height, radius, arrow){
 
 exports.tooltip = function (text, color){
     return function(selection){
-        var balloonEl = selection.append('path');
-        selection.append('text')
+        if(selection.selectAll('text').size() === 0){
+            selection.append('path');
+            selection.append('text');
+        }
+
+        selection.select('text')
             .attr('dx', 30)
             .attr('dy', '.35em')
             .text(text);
 
-        balloonEl
+        selection.select('path')
             .attr('fill', color)
             .attr('d', function(){
                 var textNode = this.nextElementSibling,
