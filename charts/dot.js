@@ -18,6 +18,7 @@ exports.dot = function(selection){
                     .interpolate(d3.interpolateString);
 
     selection.append('g').attr('class', 'holeTicks');
+    selection.append('g').attr('class', 'points');
     selection.append('g').attr('class', 'y axis');
     selection.append('g').attr('class', 'x axis');
 
@@ -73,9 +74,6 @@ exports.dot = function(selection){
 
 
         var points = selection.select('g.points');
-        if(points.size() === 0){
-            points = selection.append('g').attr('class', 'points');
-        }
         points.selectAll('g.point')
             .data(data, chart.category())
             .enter()
@@ -83,11 +81,14 @@ exports.dot = function(selection){
             .attr('class', 'point')
             .append('circle').attr('r', 6);
 
+        points.selectAll('g.point').call(
+            balloon.tooltip(c(yAxis.tickFormat(), value),
+                            c(_color, index)));
         points.selectAll('g.point').attr('transform', function(d){
             var dx = c(inc(x.rangeBand()/2), x, category)(d),
                 dy = c(y, value)(d);
             return 'translate(' + dx + ',' + dy + ')';
-        }).call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
+        });
 
         selection.select('g.y.axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')
