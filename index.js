@@ -1,18 +1,21 @@
 var d3 = require('d3'),
     dot = require('./charts/dot').dot;
 
+function dataGenerator(qtyOfCategories){
+    for(var i = 0, data = []; i <= qtyOfCategories; i++){
+        data.push(['Category ' + (i + 1) , Math.floor(Math.random() * 100)]);
+    }
+    return data;
+}
+
+function addSvg(){
+    return d3.select('body')
+        .append('svg')
+        .style('width', '50%');
+}
 
 window.addEventListener('load', function(){
-    var data1 = [['Category 1', 53],
-                ['Category 2', 23],
-                ['Category 3', 100],
-                ['Category 4', 44],
-                ['Category 5', 87]],
-        data2 = [['Category 1', 53],
-                ['Category 2', 23],
-                ['Category 3', 100],
-                ['Category 4', 87]],
-        colors = [
+    var colors = [
             '#65ffff',
             '#9966ff',
             '#fecd66',
@@ -20,24 +23,18 @@ window.addEventListener('load', function(){
             '#e0ff65',
         ];
 
-    d3.select('body')
-        .append('svg')
-        .style('width', '50%')
-        .datum(data1)
-        .call(dot().colors(colors));
+    dot(addSvg())
+        .data(dataGenerator(5))
+        .colors(colors)();
 
-    d3.select('body')
-        .append('svg')
-        .style('width', '50%')
-        .datum(data2)
-        .call(dot());
+    dot(addSvg())
+        .data(dataGenerator(4))();
 
-    var animatedChart = d3.select('body').append('svg');
+    var animatedChart = d3.select('body').append('svg'),
+        dotChart = dot(animatedChart);
 
     setInterval(function(){
-        data3 = [1, 2, 3, 4].map(function(n){
-            return ['Category ' + n , Math.floor(Math.random() * 100)];
-        });
-        animatedChart.datum(data3).call(dot());
+        dotChart.data(dataGenerator(4));
+        dotChart();
     }, 2000);
 });
