@@ -63,6 +63,7 @@ exports.dot = function(selection){
             .attr('class', 'ticks');
 
         selection.selectAll('g.holeTicks path.ticks')
+            .transition()
             .attr('d', function(d){
                 var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
                     margin = 12,
@@ -86,11 +87,13 @@ exports.dot = function(selection){
         points.selectAll('g.point').call(
             balloon.tooltip(c(yAxis.tickFormat(), value),
                             c(_color, index)));
-        points.selectAll('g.point').attr('transform', function(d){
-            var dx = c(inc(x.rangeBand()/2), x, category)(d),
-                dy = c(y, value)(d);
-            return 'translate(' + dx + ',' + dy + ')';
-        });
+        points.selectAll('g.point')
+            .transition()
+            .attr('transform', function(d){
+                var dx = c(inc(x.rangeBand()/2), x, category)(d),
+                    dy = c(y, value)(d);
+                return 'translate(' + dx + ',' + dy + ')';
+            });
 
         selection.select('g.y.axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')

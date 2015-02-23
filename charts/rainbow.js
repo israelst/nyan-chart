@@ -25,7 +25,7 @@ exports.rainbow = function (x, y, color, category, value, data){
             .enter()
             .append('ellipse');
 
-        selection.selectAll('g.spots ellipse')
+        selection.selectAll('g.spots ellipse').transition()
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
