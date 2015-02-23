@@ -17,6 +17,9 @@ exports.dot = function(selection){
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
 
+
+    selection.append('defs');
+    selection.append('g').attr('class', 'spots');
     selection.append('g').attr('class', 'holeTicks');
     selection.append('g').attr('class', 'points');
     selection.append('g').attr('class', 'y axis');
@@ -49,9 +52,8 @@ exports.dot = function(selection){
             .attr('width', '100%');
 
         if(chart.rainbow()){
-            selection.call(chart.rainbow()(x, y, _color, category, value));
+            selection.call(chart.rainbow()(x, y, _color, category, value, data));
         }
-
 
         selection.select('g.holeTicks')
             .selectAll('path.ticks')
