@@ -5,30 +5,32 @@ var d3 = require('d3'),
 
 function index(d, i){ return i;}
 
-exports.rainbow = function (x, y, color, category, value){
+exports.rainbow = function (x, y, color, category, value, data){
     return function(selection){
         var ry = d3.max(y.range()),
-            data = selection.datum(),
-            filter = selection.append('defs')
-                .append('filter')
-                .attr('id', 'myGaussianBlur');
+            filterId = 'nyanBlur';
 
-        filter.append('feGaussianBlur')
-            .attr('in', 'SourceGraphic')
-            .attr('stdDeviation', 80);
+        if(selection.select('#' + filterId).size() === 0){
+            selection.select('defs')
+                .append('filter').attr('id', filterId)
+                .append('feGaussianBlur')
+                    .attr('in', 'SourceGraphic')
+                    .attr('stdDeviation', 80);
+        }
 
-        selection.append('g')
-            .style('filter', 'url(#' + filter.attr('id') + ')')
+        selection.select('g.spots')
+            .style('filter', 'url(#' + filterId + ')')
             .selectAll('ellipse')
-            .data(data)
+            .data(data, category)
             .enter()
-            .append('ellipse')
+            .append('ellipse');
+
+        selection.selectAll('g.spots ellipse').transition()
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category))
             .attr('rx', x.rangeBand() * 2)
-            .attr('ry', ry)
-            .sort(function(a, b){ return value(b) - value(a);});
+            .attr('ry', ry);
     };
 };
 

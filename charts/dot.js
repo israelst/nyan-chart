@@ -12,13 +12,21 @@ function ceil(value){
 }
 function index(d, i){ return i;}
 
-exports.dot = function(colors){
+exports.dot = function(selection){
     var _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
                     .interpolate(d3.interpolateString);
 
-    function chart(selection){
-        var data = selection.datum(),
+
+    selection.append('defs');
+    selection.append('g').attr('class', 'spots');
+    selection.append('g').attr('class', 'holeTicks');
+    selection.append('g').attr('class', 'points');
+    selection.append('g').attr('class', 'y axis');
+    selection.append('g').attr('class', 'x axis');
+
+    function chart(){
+        var data = chart.data(),
             category = chart.category(),
             value = chart.value(),
             max = ceil(d3.max(data, value)),
@@ -44,16 +52,18 @@ exports.dot = function(colors){
             .attr('width', '100%');
 
         if(chart.rainbow()){
-            selection.call(chart.rainbow()(x, y, _color, category, value));
+            selection.call(chart.rainbow()(x, y, _color, category, value, data));
         }
 
-        selection.append('g')
-            .attr('class', 'holeTicks')
+        selection.select('g.holeTicks')
             .selectAll('path.ticks')
-            .data(data)
+            .data(data, chart.category())
             .enter()
             .append('path')
-            .attr('class', 'ticks')
+            .attr('class', 'ticks');
+
+        selection.selectAll('g.holeTicks path.ticks')
+            .transition()
             .attr('d', function(d){
                 var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
                     margin = 12,
@@ -65,27 +75,31 @@ exports.dot = function(colors){
                         'V' + y.range()[1]);
             });
 
-        var points = selection.append('g').attr('class', 'points')
-            .selectAll('g.point')
-            .data(data)
+
+        var points = selection.select('g.points');
+        points.selectAll('g.point')
+            .data(data, chart.category())
             .enter()
             .append('g')
             .attr('class', 'point')
+            .append('circle').attr('r', 6);
+
+        points.selectAll('g.point').call(
+            balloon.tooltip(c(yAxis.tickFormat(), value),
+                            c(_color, index)));
+        points.selectAll('g.point')
+            .transition()
             .attr('transform', function(d){
                 var dx = c(inc(x.rangeBand()/2), x, category)(d),
                     dy = c(y, value)(d);
                 return 'translate(' + dx + ',' + dy + ')';
             });
 
-        points.append('circle').attr('r', 6);
-
-        points.call(balloon.tooltip(c(yAxis.tickFormat(), value), c(_color, index)));
-
-        selection.append('g').attr('class', 'y axis')
+        selection.select('g.y.axis')
             .attr('transform', 'translate(' + chart.left() + ',0)')
             .call(yAxis);
 
-        selection.append('g').attr('class', 'x axis')
+        selection.select('g.x.axis')
             .attr('transform', 'translate(0,' + chart.xAxisTop() + ')')
             .call(xAxis);
     }
@@ -105,6 +119,7 @@ exports.dot = function(colors){
     accessor.call(chart, 'xAxisTop', 315);
     accessor.call(chart, 'valueFormat', d3.format("n"));
     accessor.call(chart, 'rainbow', rainbow);
+    accessor.call(chart, 'data');
 
     accessor.call(chart, 'category', function (d){ return d[0];});
     accessor.call(chart, 'value', function (d){ return d[1];});
