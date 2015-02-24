@@ -8,10 +8,11 @@ function dataGenerator(qtyOfCategories){
     return data;
 }
 
-function addSvg(){
+function addSvg(width){
+    width = width || '50%';
     return d3.select('body')
         .append('svg')
-        .style('width', '50%');
+        .style('width', width);
 }
 
 window.addEventListener('load', function(){
@@ -30,8 +31,7 @@ window.addEventListener('load', function(){
     dot(addSvg())
         .data(dataGenerator(4))();
 
-    var animatedChart = d3.select('body').append('svg'),
-        dotChart = dot(animatedChart);
+    var dotChart = dot(addSvg('100%'));
 
     setInterval(function(){
         dotChart.data(dataGenerator(4));
