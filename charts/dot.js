@@ -82,6 +82,10 @@ exports.dot = function(selection){
             .enter()
             .append('g')
             .attr('class', 'point')
+            .attr('transform', function(d){
+                var dx = c(inc(x.rangeBand()/2), x, category)(d);
+                return 'translate(' + dx + ',' + y(0) + ')';
+            })
             .append('circle').attr('r', 6);
 
         points.selectAll('g.point').call(
