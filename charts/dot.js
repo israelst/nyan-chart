@@ -116,17 +116,18 @@ exports.dot = function(selection){
         return chart;
     };
 
-    accessor.call(chart, 'width', 1280);
-    accessor.call(chart, 'top', 75);
-    accessor.call(chart, 'left', 96);
-    accessor.call(chart, 'right', 0);
-    accessor.call(chart, 'xAxisTop', 315);
-    accessor.call(chart, 'valueFormat', d3.format("n"));
-    accessor.call(chart, 'rainbow', rainbow);
-    accessor.call(chart, 'data');
+    var addAttr = accessor.bind(chart);
+    addAttr('width', 1280);
+    addAttr('top', 75);
+    addAttr('left', 96);
+    addAttr('right', 0);
+    addAttr('xAxisTop', 315);
+    addAttr('valueFormat', d3.format("n"));
+    addAttr('rainbow', rainbow);
+    addAttr('data');
 
-    accessor.call(chart, 'category', function (d){ return d[0];});
-    accessor.call(chart, 'value', function (d){ return d[1];});
+    addAttr('category', function (d){ return d[0];});
+    addAttr('value', function (d){ return d[1];});
 
     return chart;
 };
