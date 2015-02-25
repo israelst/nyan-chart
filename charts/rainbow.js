@@ -23,14 +23,15 @@ exports.rainbow = function (x, y, color, category, value, data){
             .selectAll('ellipse')
             .data(data, category)
             .enter()
-            .append('ellipse');
+            .append('ellipse')
+            .attr('rx', x.rangeBand() * 2)
+            .attr('ry', ry)
+            .style('fill', 'transparent');
 
         selection.selectAll('g.spots ellipse').transition()
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
-            .attr('cx', c(inc(x.rangeBand()/2), x, category))
-            .attr('rx', x.rangeBand() * 2)
-            .attr('ry', ry);
+            .attr('cx', c(inc(x.rangeBand()/2), x, category));
     };
 };
 
