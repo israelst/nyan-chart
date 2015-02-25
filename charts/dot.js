@@ -1,6 +1,7 @@
 var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
+    index = util.arg(1),
     c = util.c,
     accessor = util.accessor,
     balloon = require('./balloon'),
@@ -10,7 +11,6 @@ var d3 = require('d3'),
 function ceil(value){
     return Math.ceil(value/100) * 100;
 }
-function index(d, i){ return i;}
 
 exports.dot = function(selection){
     var _color = d3.scale.linear()

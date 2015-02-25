@@ -1,9 +1,8 @@
 var d3 = require('d3'),
     util = require('../util'),
     inc = util.inc,
+    index = util.arg(1),
     c = util.c;
-
-function index(d, i){ return i;}
 
 exports.rainbow = function (x, y, color, category, value, data){
     return function(selection){
