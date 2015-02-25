@@ -22,3 +22,13 @@ exports.accessor = function (name, defaultValue){
         return attr;
     };
 };
+
+exports.arg = function (index){
+    return function (){
+        if(index === undefined){
+            return [].slice.call(arguments);
+        }else{
+            return arguments[index];
+        }
+    };
+};
