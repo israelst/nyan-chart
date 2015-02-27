@@ -7,8 +7,6 @@ module.exports = function(grunt) {
             files: {
                 src: [
                     'index.js',
-                    'charts.js',
-                    '!dist',
                 ],
                 dest: 'dist/build.js',
             }
@@ -25,11 +23,11 @@ module.exports = function(grunt) {
         },
         watch: {
             test: {
-                files: ['**/*.js'],
+                files: ['charts/*.js', 'util.js', 'test'],
                 tasks: ['mochaTest']
             },
             build: {
-                files: ['**/*.js', '!dist', '!test/**/*.js'],
+                files: ['charts/*.js', 'util.js'],
                 tasks: ['browserify']
             }
         }
