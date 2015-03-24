@@ -27,6 +27,12 @@ exports.rainbow = function (x, y, color, category, value, data){
             .attr('ry', ry)
             .style('fill', 'transparent');
 
+        selection.select('g.spots')
+            .append('rect')
+            .attr('class', 'placeholder')
+            .attr('width', 1)
+            .attr('height', 1);
+
         selection.selectAll('g.spots ellipse').transition()
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
