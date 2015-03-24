@@ -27,6 +27,7 @@ exports.rainbow = function (x, y, color, category, value, data){
             .attr('ry', ry)
             .style('fill', 'transparent');
 
+        /* This rect prevent spot truncation */
         spots.append('rect')
             .attr('class', 'placeholder')
             .attr('width', 1)
