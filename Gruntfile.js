@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 tasks: ['mochaTest']
             },
             build: {
-                files: ['charts/*.js', 'util.js'],
+                files: ['charts/*.js', 'util.js', 'index.js'],
                 tasks: ['browserify']
             }
         }
