@@ -7,7 +7,8 @@ var d3 = require('d3'),
 exports.rainbow = function (x, y, color, category, value, data){
     return function(selection){
         var ry = d3.max(y.range()),
-            filterId = 'nyanBlur';
+            filterId = 'nyanBlur',
+            spots = selection.select('g.spots');
 
         if(selection.select('#' + filterId).size() === 0){
             selection.select('defs')
@@ -17,8 +18,7 @@ exports.rainbow = function (x, y, color, category, value, data){
                     .attr('stdDeviation', 80);
         }
 
-        selection.select('g.spots')
-            .style('filter', 'url(#' + filterId + ')')
+        spots.style('filter', 'url(#' + filterId + ')')
             .selectAll('ellipse')
             .data(data, category)
             .enter()
@@ -27,13 +27,12 @@ exports.rainbow = function (x, y, color, category, value, data){
             .attr('ry', ry)
             .style('fill', 'transparent');
 
-        selection.select('g.spots')
-            .append('rect')
+        spots.append('rect')
             .attr('class', 'placeholder')
             .attr('width', 1)
             .attr('height', 1);
 
-        selection.selectAll('g.spots ellipse').transition()
+        spots.selectAll('ellipse').transition()
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category));
