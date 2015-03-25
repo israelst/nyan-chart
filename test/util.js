@@ -1,7 +1,8 @@
 var assert = require('assert'),
-    accessor = require('../util').accessor,
-    arg = require('../util').arg,
-    p = require('../util').p;
+    util = require('../util'),
+    accessor = util.accessor,
+    arg = util.arg,
+    p = util.p;
 
 describe('accessor', function(){
     it('should create a method with the passed name', function(){
