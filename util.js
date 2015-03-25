@@ -32,3 +32,9 @@ exports.arg = function (index){
         }
     };
 };
+
+exports.p = function (index){
+    return function(relation){
+        return relation[index];
+    };
+};

@@ -1,6 +1,7 @@
 var assert = require('assert'),
-    accessor = require('../util').accessor;
-    arg = require('../util').arg;
+    accessor = require('../util').accessor,
+    arg = require('../util').arg,
+    p = require('../util').p;
 
 describe('accessor', function(){
     it('should create a method with the passed name', function(){
@@ -45,6 +46,26 @@ describe('arg', function(){
         it('should return a function that returns undefined', function(){
             var f = arg(1);
             assert.equal(f('first'), undefined);
+        });
+    });
+});
+
+describe('p', function(){
+    context('receiving an integer', function(){
+        it('should return a function that returns the correspondent index', function(){
+            var f = p(0);
+            assert.equal(f(['first', 'second']), 'first');
+            assert.equal(f([42, 3.14]), 42);
+
+            f = p(1);
+            assert.equal(f(['first', 'second']), 'second');
+            assert.equal(f([42, 3.14]), 3.14);
+        });
+    });
+    context('receiving an string', function(){
+        it('should return a function that returns the correspondent index', function(){
+            var f = p('name');
+            assert.equal(f({name: 'bob', age: 32}), 'bob');
         });
     });
 });
