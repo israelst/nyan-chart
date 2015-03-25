@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         },
         watch: {
             test: {
-                files: ['charts/*.js', 'util.js', 'test'],
+                files: ['charts/*.js', 'util.js', 'test/*'],
                 tasks: ['mochaTest']
             },
             build: {
