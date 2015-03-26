@@ -67,6 +67,20 @@ describe('p', function(){
                 assert.equal(f(numberRelation), 3.14);
             });
         });
+        context('returns a function that receives an object relation and', function(){
+            var strRelation = {0: 'first', 1: 'second'},
+                numberRelation = {0: 42, 1: 3.14};
+            it('should returns the value of the key 0', function(){
+                var f = p(0);
+                assert.equal(f(strRelation), 'first');
+                assert.equal(f(numberRelation), 42);
+            });
+            it('should returns the value of the key 1', function(){
+                var f = p(1);
+                assert.equal(f(strRelation), 'second');
+                assert.equal(f(numberRelation), 3.14);
+            });
+        });
     });
     context('receiving an string', function(){
         it('should return a function that returns the correspondent index', function(){
