@@ -1,6 +1,8 @@
 var assert = require('assert'),
-    accessor = require('../util').accessor;
-    arg = require('../util').arg;
+    util = require('../util'),
+    accessor = util.accessor,
+    arg = util.arg,
+    p = util.p;
 
 describe('accessor', function(){
     it('should create a method with the passed name', function(){
@@ -45,6 +47,45 @@ describe('arg', function(){
         it('should return a function that returns undefined', function(){
             var f = arg(1);
             assert.equal(f('first'), undefined);
+        });
+    });
+});
+
+describe('p', function(){
+    context('receiving an integer', function(){
+        context('returns a function that receives an array relation and', function(){
+            var strRelation = ['first', 'second'],
+                numberRelation = [42, 3.14];
+            it('should returns the first element', function(){
+                var f = p(0);
+                assert.equal(f(strRelation), 'first');
+                assert.equal(f(numberRelation), 42);
+            });
+            it('should returns the second element', function(){
+                var f = p(1);
+                assert.equal(f(strRelation), 'second');
+                assert.equal(f(numberRelation), 3.14);
+            });
+        });
+        context('returns a function that receives an object relation and', function(){
+            var strRelation = {0: 'first', 1: 'second'},
+                numberRelation = {0: 42, 1: 3.14};
+            it('should returns the value of the key 0', function(){
+                var f = p(0);
+                assert.equal(f(strRelation), 'first');
+                assert.equal(f(numberRelation), 42);
+            });
+            it('should returns the value of the key 1', function(){
+                var f = p(1);
+                assert.equal(f(strRelation), 'second');
+                assert.equal(f(numberRelation), 3.14);
+            });
+        });
+    });
+    context('receiving an string', function(){
+        it('should return a function that returns the correspondent index', function(){
+            var f = p('name');
+            assert.equal(f({name: 'bob', age: 32}), 'bob');
         });
     });
 });
