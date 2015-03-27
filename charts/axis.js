@@ -1,4 +1,5 @@
 var accessor = require('../util').accessor,
+    I = require('../util').arg(0),
     d3 = require('d3');
 
 exports.wordWrapping = function(){
@@ -13,7 +14,7 @@ exports.wordWrapping = function(){
             .attr('y', axis.tickPadding())
             .append('xhtml:div')
                 .attr('class', 'wordwrapping-text')
-                .text(function(d){ return d;});
+                .text(I);
 
         foreignObject.attr('height', function(){
             return this.childNodes[0].clientHeight;
