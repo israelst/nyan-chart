@@ -1,6 +1,5 @@
 var accessor = require('../util').accessor,
-    I = require('../util').arg(0),
-    d3 = require('d3');
+    I = require('../util').arg(0);
 
 exports.wordWrapping = function(){
     function axis(container){
