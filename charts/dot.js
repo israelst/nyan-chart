@@ -1,9 +1,10 @@
 var d3 = require('d3'),
     util = require('../util'),
+    accessor = util.accessor,
     inc = util.inc,
     index = util.arg(1),
     c = util.c,
-    accessor = util.accessor,
+    p = util.p,
     balloon = require('./balloon'),
     rainbow = require('./rainbow').rainbow,
     wordWrapping = require('./axis').wordWrapping;
@@ -126,8 +127,8 @@ exports.dot = function(selection){
     addAttr('rainbow', rainbow);
     addAttr('data');
 
-    addAttr('category', function (d){ return d[0];});
-    addAttr('value', function (d){ return d[1];});
+    addAttr('category', p(0));
+    addAttr('value', p(1));
 
     return chart;
 };
