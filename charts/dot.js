@@ -118,7 +118,8 @@ exports.dot = function(selection){
     };
 
     var addAttr = accessor.bind(chart);
-    addAttr('width', 1280);
+
+    addAttr('width', selection.node().parentNode.clientWidth);
     addAttr('top', 75);
     addAttr('left', 96);
     addAttr('right', 0);
