@@ -77,23 +77,21 @@ exports.dot = function(selection){
             });
 
 
-        var points = selection.select('g.points');
-        points.selectAll('g.point')
+        var points = selection.selectAll('g.points > g.point')
             .data(data, chart.category())
             .enter()
             .append('g')
-            .attr('class', 'point')
-            .attr('transform', function(d){
-                var dx = c(inc(x.rangeBand()/2), x, category)(d);
-                return 'translate(' + dx + ',' + y(0) + ')';
-            })
-            .append('circle').attr('r', 6);
+            .attr('class', 'point');
 
-        points.selectAll('g.point').call(
+        points.attr('transform', function(d){
+            var dx = c(inc(x.rangeBand()/2), x, category)(d);
+            return 'translate(' + dx + ',' + y(0) + ')';
+        }).append('circle').attr('r', 6);
+
+        points.call(
             balloon.tooltip(c(yAxis.tickFormat(), value),
                             c(_color, index)));
-        points.selectAll('g.point')
-            .transition()
+        points.transition()
             .attr('transform', function(d){
                 var dx = c(inc(x.rangeBand()/2), x, category)(d),
                     dy = c(y, value)(d);
