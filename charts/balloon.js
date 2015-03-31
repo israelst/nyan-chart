@@ -30,7 +30,13 @@ exports.tooltip = function (text, color){
         selection.select('text')
             .attr('dx', 30)
             .attr('dy', '.35em')
-            .text(text);
+            .transition()
+            .tween("text", function(d) {
+                var i = d3.interpolateRound(0, text(d));
+                return function(t) {
+                    this.textContent = i(t);
+                };
+            });
 
         selection.select('path')
             .attr('fill', color)
