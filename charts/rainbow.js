@@ -25,7 +25,7 @@ exports.rainbow = function (x, y, color, category, value, data){
             .append('ellipse')
             .attr('rx', x.rangeBand() * 2)
             .attr('ry', ry)
-            .style('fill', 'transparent');
+            .style('fill', c(color, index));
 
         /* This rect prevent spot truncation */
         spots.append('rect')
