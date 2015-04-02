@@ -32,12 +32,11 @@ exports.tooltip = function (text, color){
             .attr('dy', '.35em')
             .transition()
             .tween("text", function(d) {
-                var currValue = this.textContent,
-                    nextValue = text(d),
-                    // interpolateRound is buggy when the first value is bigger than the last
-                    i = d3.interpolateNumber(currValue, nextValue);
+                var currValue = Number(this.textContent),
+                    nextValue = Number(text(d)),
+                    i = d3.interpolateRound(currValue, nextValue);
                 return function(t) {
-                    this.textContent = Math.round(i(t));
+                    this.textContent = i(t);
                 };
             });
 
