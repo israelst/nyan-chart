@@ -24,7 +24,7 @@ exports.tooltip = function (text, color){
     return function(selection){
         if(selection.selectAll('text').size() === 0){
             selection.append('path');
-            selection.append('text');
+            selection.append('text').text(0);
         }
 
         selection.select('text')
