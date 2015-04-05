@@ -1,6 +1,14 @@
 var util = require('../util');
     inc = util.inc;
 
+function wrapTextNode(textNode){
+    var width = textNode.getComputedTextLength(),
+    clientRect = textNode.getClientRects()[0],
+    height = clientRect.height;
+
+    return path(Math.ceil(width), height, 10, 4);
+}
+
 function path(width, height, radius, arrow){
     function join(){
         return [].map.call(arguments, inc('')).join(',');
@@ -27,6 +35,8 @@ exports.tooltip = function (text, color){
             selection.append('text').text(0);
         }
 
+        var balloonPath = selection.select('path').attr('fill', color);
+
         selection.select('text')
             .attr('dx', 30)
             .attr('dy', '.35em')
@@ -37,19 +47,9 @@ exports.tooltip = function (text, color){
                     i = d3.interpolateRound(currValue, nextValue);
                 return function(t) {
                     this.textContent = i(t);
+                    balloonPath.attr('d', wrapTextNode(this));
                 };
-            });
-
-        selection.select('path')
-            .attr('fill', color)
-            .transition()
-            .attr('d', function(){
-                var textNode = this.nextElementSibling,
-                    width = textNode.getComputedTextLength(),
-                    clientRect = textNode.getClientRects()[0],
-                    height = clientRect.height;
-
-                return path(Math.ceil(width), height, 10, 4);
             });
     };
 };
+
