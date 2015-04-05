@@ -35,7 +35,7 @@ exports.tooltip = function (text, color){
             selection.append('text').text(0);
         }
 
-        var balloonPath = selection.select('path').attr('fill', color);
+        selection.select('path').attr('fill', color);
 
         selection.select('text')
             .attr('dx', 30)
@@ -47,7 +47,9 @@ exports.tooltip = function (text, color){
                     i = d3.interpolateRound(currValue, nextValue);
                 return function(t) {
                     this.textContent = i(t);
-                    balloonPath.attr('d', wrapTextNode(this));
+                    d3.select(this.parentNode)
+                        .select('path')
+                        .attr('d', wrapTextNode(this));
                 };
             });
     };
