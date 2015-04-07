@@ -4,7 +4,9 @@ var d3 = require('d3'),
     index = util.arg(1),
     c = util.c;
 
-exports.rainbow = function (x, y, color, category, value, data){
+
+// TODO: Revisit the constructor, there is too many parameters, mind the default values
+exports.rainbow = function (x, y, color, category, value, data, transitionConfig){
     return function(selection){
         var ry = d3.max(y.range()),
             filterId = 'nyanBlur',
@@ -34,6 +36,7 @@ exports.rainbow = function (x, y, color, category, value, data){
             .attr('height', 1);
 
         spots.selectAll('ellipse').transition()
+            .call(transitionConfig)
             .style('fill', c(color, index))
             .attr('cy', c(inc(ry), y, value))
             .attr('cx', c(inc(x.rangeBand()/2), x, category));

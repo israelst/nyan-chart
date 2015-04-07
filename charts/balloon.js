@@ -1,6 +1,14 @@
 var util = require('../util');
     inc = util.inc;
 
+function wrapTextNode(textNode){
+    var width = textNode.getComputedTextLength(),
+    clientRect = textNode.getClientRects()[0],
+    height = clientRect.height;
+
+    return path(Math.ceil(width), height, 10, 4);
+}
+
 function path(width, height, radius, arrow){
     function join(){
         return [].map.call(arguments, inc('')).join(',');
@@ -20,28 +28,33 @@ function path(width, height, radius, arrow){
             ' Z');
 }
 
-exports.tooltip = function (text, color){
+
+// TODO: Revisit the constructor, there is too many parameters, mind the default values
+exports.tooltip = function (text, color, transitionConfig){
     return function(selection){
         if(selection.selectAll('text').size() === 0){
             selection.append('path');
-            selection.append('text');
+            selection.append('text').text(0);
         }
+
+        selection.select('path').attr('fill', color);
 
         selection.select('text')
             .attr('dx', 30)
             .attr('dy', '.35em')
-            .text(text);
-
-        selection.select('path')
-            .attr('fill', color)
             .transition()
-            .attr('d', function(){
-                var textNode = this.nextElementSibling,
-                    width = textNode.getComputedTextLength(),
-                    clientRect = textNode.getClientRects()[0],
-                    height = clientRect.height;
-
-                return path(Math.ceil(width), height, 10, 4);
+            .call(transitionConfig)
+            .tween("text", function(d) {
+                var currValue = Number(this.textContent),
+                    nextValue = Number(text(d)),
+                    i = d3.interpolateRound(currValue, nextValue);
+                return function(t) {
+                    this.textContent = i(t);
+                    d3.select(this.parentNode)
+                        .select('path')
+                        .attr('d', wrapTextNode(this));
+                };
             });
     };
 };
+

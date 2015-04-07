@@ -13,6 +13,11 @@ function ceil(value){
     return Math.ceil(value/100) * 100;
 }
 
+function transitionConfig(transition){
+    transition.duration(1000).ease('exp-out');
+    return transition;
+}
+
 exports.dot = function(selection){
     var _color = d3.scale.linear()
                     .range(['hsl(0, 100%, 60%)', 'hsl(360, 100%, 60%)'])
@@ -53,7 +58,7 @@ exports.dot = function(selection){
             .attr('width', '100%');
 
         if(chart.rainbow()){
-            selection.call(chart.rainbow()(x, y, _color, category, value, data));
+            selection.call(chart.rainbow()(x, y, _color, category, value, data, transitionConfig));
         }
 
         selection.select('g.holeTicks')
@@ -65,6 +70,7 @@ exports.dot = function(selection){
 
         selection.selectAll('g.holeTicks path.ticks')
             .transition()
+            .call(transitionConfig)
             .attr('d', function(d){
                 var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
                     margin = 12,
@@ -93,9 +99,11 @@ exports.dot = function(selection){
 
         points.call(
             balloon.tooltip(c(yAxis.tickFormat(), value),
-                            c(_color, index)));
+                            c(_color, index),
+                            transitionConfig));
         points
             .transition()
+            .call(transitionConfig)
             .attr('transform', function(d){
                 var dx = c(inc(x.rangeBand()/2), x, category)(d),
                     dy = c(y, value)(d);
