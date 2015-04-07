@@ -28,7 +28,9 @@ function path(width, height, radius, arrow){
             ' Z');
 }
 
-exports.tooltip = function (text, color){
+
+// TODO: Revisit the constructor, there is too many parameters, mind the default values
+exports.tooltip = function (text, color, transitionConfig){
     return function(selection){
         if(selection.selectAll('text').size() === 0){
             selection.append('path');
@@ -41,6 +43,7 @@ exports.tooltip = function (text, color){
             .attr('dx', 30)
             .attr('dy', '.35em')
             .transition()
+            .call(transitionConfig)
             .tween("text", function(d) {
                 var currValue = Number(this.textContent),
                     nextValue = Number(text(d)),
