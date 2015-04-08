@@ -65,6 +65,7 @@ exports.dot = function(selection){
             .data(data, chart.category())
             .enter()
             .append('path')
+            .attr('d', function(d){ return holeTicks(category(d), y.domain()[0]); })
             .attr('class', 'ticks');
 
         function holeTicks(vX, vY){
@@ -79,7 +80,7 @@ exports.dot = function(selection){
         }
 
         selection.selectAll('g.holeTicks path.ticks')
-            .attr('d', function(d){ return holeTicks(category(d), y.domain()[0]); })
+            .transition()
             .call(transitionConfig)
             .attr('d', function(d){ return holeTicks(category(d), value(d)); });
 
