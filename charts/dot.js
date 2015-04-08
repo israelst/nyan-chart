@@ -93,7 +93,7 @@ exports.dot = function(selection){
             .attr('class', 'point')
             .attr('transform', function(d){
                 var dx = c(inc(x.rangeBand()/2), x, category)(d);
-                return 'translate(' + dx + ',' + y(0) + ')';
+                return 'translate(' + dx + ',' + y.range()[0] + ')';
             })
             .append('circle').attr('r', 6);
 
