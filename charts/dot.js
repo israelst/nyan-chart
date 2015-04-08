@@ -15,7 +15,6 @@ function ceil(value){
 
 function transitionConfig(transition){
     transition.duration(1000).ease('exp-out');
-    return transition;
 }
 
 exports.dot = function(selection){
