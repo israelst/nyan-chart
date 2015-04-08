@@ -68,19 +68,21 @@ exports.dot = function(selection){
             .append('path')
             .attr('class', 'ticks');
 
+        function holeTicks(vX, vY){
+            var xPos = +c(inc(x.rangeBand()/2), x)(vX),
+            margin = 12,
+            middleStop = Math.min(y(vY) + margin, y.range()[0]),
+            middleStart = Math.max(y(vY) - margin, y.range()[1]);
+            return ('M' + xPos + ',' + y.range()[0] +
+                    'V' + middleStop  +
+                    'M' + xPos + ',' + middleStart +
+                    'V' + y.range()[1]);
+        }
+
         selection.selectAll('g.holeTicks path.ticks')
-            .transition()
+            .attr('d', function(d){ return holeTicks(category(d), y.domain()[0]); })
             .call(transitionConfig)
-            .attr('d', function(d){
-                var xPos = +c(inc(x.rangeBand()/2), x, category)(d),
-                    margin = 12,
-                    middleStop = Math.min(y(value(d)) + margin, y.range()[0]),
-                    middleStart = Math.max(y(value(d)) - margin, y.range()[1]);
-                return ('M' + xPos + ',' + y.range()[0] +
-                        'V' + middleStop  +
-                        'M' + xPos + ',' + middleStart +
-                        'V' + y.range()[1]);
-            });
+            .attr('d', function(d){ return holeTicks(category(d), value(d)); });
 
 
         var pointsContainer = selection.select('g.points');
