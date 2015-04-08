@@ -57,7 +57,12 @@ exports.dot = function(selection){
             .attr('width', '100%');
 
         if(chart.rainbow()){
-            selection.call(chart.rainbow()(x, y, _color, category, value, data, transitionConfig));
+            var mySpots = chart.rainbow()(x, y, data, transitionConfig);
+            mySpots
+                .color(_color)
+                .category(category)
+                .value(value);
+            selection.call(mySpots);
         }
 
         selection.select('g.holeTicks')

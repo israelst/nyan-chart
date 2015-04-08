@@ -1,12 +1,14 @@
 var d3 = require('d3'),
     util = require('../util'),
+    accessor = util.accessor,
+    c = util.c,
     inc = util.inc,
     index = util.arg(1),
-    c = util.c;
+    p = util.p;
 
 
 // TODO: Revisit the constructor, there is too many parameters, mind the default values
-exports.rainbow = function (x, y, color, category, value, data, transitionConfig){
+exports.rainbow = function (x, y, data, transitionConfig){
     function addFilter(selection, id){
         if(selection.select('#' + id).size() === 0){
             selection.select('defs')
@@ -16,7 +18,8 @@ exports.rainbow = function (x, y, color, category, value, data, transitionConfig
                     .attr('stdDeviation', 80);
         }
     }
-    return function(selection){
+
+    function chart(selection){
         var ry = d3.max(y.range()),
             filterId = 'nyanBlur',
             spots = selection.select('g.spots');
@@ -25,12 +28,12 @@ exports.rainbow = function (x, y, color, category, value, data, transitionConfig
 
         spots.style('filter', 'url(#' + filterId + ')')
             .selectAll('ellipse')
-            .data(data, category)
+            .data(data, chart.category())
             .enter()
             .append('ellipse')
             .attr('rx', x.rangeBand() * 2)
             .attr('ry', ry)
-            .style('fill', c(color, index));
+            .style('fill', c(chart.color(), index));
 
         /* This rect prevent spot truncation */
         spots.append('rect')
@@ -40,10 +43,18 @@ exports.rainbow = function (x, y, color, category, value, data, transitionConfig
 
         spots.selectAll('ellipse').transition()
             .call(transitionConfig)
-            .style('fill', c(color, index))
-            .attr('cy', c(inc(ry), y, value))
-            .attr('cx', c(inc(x.rangeBand()/2), x, category));
-    };
+            .style('fill', c(chart.color(), index))
+            .attr('cy', c(inc(ry), y, chart.value()))
+            .attr('cx', c(inc(x.rangeBand()/2), x, chart.category()));
+    }
+
+    var addAttr = accessor.bind(chart);
+
+    addAttr('color', function(){ return '#fff';});
+    addAttr('category', p(0));
+    addAttr('value', p(1));
+
+    return chart;
 };
 
 
