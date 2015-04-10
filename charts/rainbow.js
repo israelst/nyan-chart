@@ -36,10 +36,12 @@ exports.rainbow = function (x, y, data, transitionConfig){
             .style('fill', c(chart.color(), index));
 
         /* This rect prevent spot truncation */
-        spots.append('rect')
-            .attr('class', 'placeholder')
-            .attr('width', 1)
-            .attr('height', 1);
+        if(spots.select('rect.placeholder').size() === 0){
+            spots.append('rect')
+                .attr('class', 'placeholder')
+                .attr('width', 1)
+                .attr('height', 1);
+        }
 
         spots.selectAll('ellipse').transition()
             .call(transitionConfig)

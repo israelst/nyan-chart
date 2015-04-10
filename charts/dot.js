@@ -56,14 +56,12 @@ exports.dot = function(selection){
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', '100%');
 
-        if(chart.rainbow()){
-            var mySpots = chart.rainbow()(x, y, data, transitionConfig);
-            mySpots
-                .color(_color)
-                .category(category)
-                .value(value);
-            selection.call(mySpots);
-        }
+        var mySpots = chart.rainbow()(x, y, data, transitionConfig);
+        mySpots
+            .color(_color)
+            .category(category)
+            .value(value);
+        selection.call(mySpots);
 
         selection.select('g.holeTicks')
             .selectAll('path.ticks')
