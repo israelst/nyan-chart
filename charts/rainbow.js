@@ -19,12 +19,11 @@ exports.rainbow = function (x, y, data, transitionConfig){
         }
     }
 
-    function chart(selection){
+    function chart(spots){
         var ry = d3.max(y.range()),
-            filterId = 'nyanBlur',
-            spots = selection.select('g.spots');
+            filterId = 'nyanBlur';
 
-        addFilter(selection, filterId);
+        addFilter(d3.select(spots.node().parentNode), filterId);
 
         spots.style('filter', 'url(#' + filterId + ')')
             .selectAll('ellipse')

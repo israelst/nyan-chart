@@ -61,7 +61,7 @@ exports.dot = function(selection){
             .color(_color)
             .category(category)
             .value(value);
-        selection.call(mySpots);
+        selection.select('g.spots').call(mySpots);
 
         selection.select('g.holeTicks')
             .selectAll('path.ticks')
