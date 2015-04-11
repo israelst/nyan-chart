@@ -32,6 +32,8 @@ exports.rainbow = function (x, y, data, transitionConfig){
             .append('ellipse')
             .attr('rx', x.rangeBand() * 2)
             .attr('ry', ry)
+            .attr('cy', ry * 2)
+            .attr('cx', c(inc(x.rangeBand()/2), x, chart.category()))
             .style('fill', c(chart.color(), index));
 
         /* This rect prevent spot truncation */
@@ -45,8 +47,7 @@ exports.rainbow = function (x, y, data, transitionConfig){
         spots.selectAll('ellipse').transition()
             .call(transitionConfig)
             .style('fill', c(chart.color(), index))
-            .attr('cy', c(inc(ry), y, chart.value()))
-            .attr('cx', c(inc(x.rangeBand()/2), x, chart.category()));
+            .attr('cy', c(inc(ry), y, chart.value()));
     }
 
     var addAttr = accessor.bind(chart);
