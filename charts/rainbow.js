@@ -7,8 +7,7 @@ var d3 = require('d3'),
     p = util.p;
 
 
-// TODO: Revisit the constructor, there is too many parameters, mind the default values
-exports.rainbow = function (x, y, data, transitionConfig){
+exports.rainbow = function (x, y, data){
     function addFilter(selection, id){
         if(selection.select('#' + id).size() === 0){
             selection.select('defs')
@@ -45,7 +44,7 @@ exports.rainbow = function (x, y, data, transitionConfig){
         }
 
         spots.selectAll('ellipse').transition()
-            .call(transitionConfig)
+            .call(chart.transitionConfig())
             .style('fill', c(chart.color(), index))
             .attr('cy', c(inc(ry), y, chart.value()));
     }
@@ -55,6 +54,9 @@ exports.rainbow = function (x, y, data, transitionConfig){
     addAttr('color', function(){ return '#fff';});
     addAttr('category', p(0));
     addAttr('value', p(1));
+    addAttr('transitionConfig', function (transition){
+        transition.duration(1000).ease('exp-out');
+    });
 
     return chart;
 };
