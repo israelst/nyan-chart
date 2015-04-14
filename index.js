@@ -32,9 +32,9 @@ window.addEventListener('load', function(){
         .data(dataGenerator(4))();
 
     var dotChart = dot(addSvg('100%'));
+    dotChart.data(dataGenerator(4))();
 
     setInterval(function(){
-        dotChart.data(dataGenerator(4));
-        dotChart();
+        dotChart.data(dataGenerator(4))();
     }, 2000);
 });
