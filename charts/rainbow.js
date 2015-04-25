@@ -9,7 +9,7 @@ var d3 = require('d3'),
 
 exports.rainbow = function (x, y, data){
     function addFilter(selection, id){
-        if(selection.select('#' + id).size() === 0){
+        if(selection.select('#' + id).empty()){
             selection.select('defs')
                 .append('filter').attr('id', id)
                 .append('feGaussianBlur')
@@ -36,7 +36,7 @@ exports.rainbow = function (x, y, data){
             .style('fill', c(chart.color(), index));
 
         /* This rect prevent spot truncation */
-        if(spots.select('rect.placeholder').size() === 0){
+        if(spots.select('rect.placeholder').empty()){
             spots.append('rect')
                 .attr('class', 'placeholder')
                 .attr('width', 1)

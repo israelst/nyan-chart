@@ -32,7 +32,7 @@ function path(width, height, radius, arrow){
 // TODO: Revisit the constructor, there is too many parameters, mind the default values
 exports.tooltip = function (text, color, transitionConfig){
     return function(selection){
-        if(selection.selectAll('text').size() === 0){
+        if(selection.selectAll('text').empty()){
             selection.append('path');
             selection.append('text').text(0);
         }
