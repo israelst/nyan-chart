@@ -10,7 +10,7 @@ function dataGenerator(qtyOfCategories){
 
 function addSvg(width){
     width = width || '50%';
-    return d3.select('body')
+    return d3.select('article')
         .append('svg')
         .style('width', width);
 }
